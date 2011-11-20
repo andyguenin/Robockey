@@ -1,0 +1,1085 @@
+
+Robockey.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000004  00800100  0000059e  00000632  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         0000059e  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          00000009  00800104  00800104  00000636  2**0
+                  ALLOC
+  3 .debug_aranges 000000a0  00000000  00000000  00000636  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_pubnames 0000022f  00000000  00000000  000006d6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   0000072a  00000000  00000000  00000905  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000003f0  00000000  00000000  0000102f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   0000077e  00000000  00000000  0000141f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000150  00000000  00000000  00001ba0  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000237  00000000  00000000  00001cf0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000002c8  00000000  00000000  00001f27  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000080  00000000  00000000  000021ef  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 56 00 	jmp	0xac	; 0xac <__ctors_end>
+   4:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+   8:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+   c:	0c 94 53 01 	jmp	0x2a6	; 0x2a6 <__vector_3>
+  10:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  14:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  18:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  1c:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  20:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  24:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  28:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  2c:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  30:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  34:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  38:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  3c:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  40:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  44:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  48:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  4c:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  50:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  54:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  58:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  5c:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  60:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  64:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  68:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  6c:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  70:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  74:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  78:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  7c:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  80:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  84:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  88:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  8c:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  90:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  94:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  98:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  9c:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  a0:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  a4:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+  a8:	0c 94 73 00 	jmp	0xe6	; 0xe6 <__bad_interrupt>
+
+000000ac <__ctors_end>:
+  ac:	11 24       	eor	r1, r1
+  ae:	1f be       	out	0x3f, r1	; 63
+  b0:	cf ef       	ldi	r28, 0xFF	; 255
+  b2:	da e0       	ldi	r29, 0x0A	; 10
+  b4:	de bf       	out	0x3e, r29	; 62
+  b6:	cd bf       	out	0x3d, r28	; 61
+
+000000b8 <__do_copy_data>:
+  b8:	11 e0       	ldi	r17, 0x01	; 1
+  ba:	a0 e0       	ldi	r26, 0x00	; 0
+  bc:	b1 e0       	ldi	r27, 0x01	; 1
+  be:	ee e9       	ldi	r30, 0x9E	; 158
+  c0:	f5 e0       	ldi	r31, 0x05	; 5
+  c2:	02 c0       	rjmp	.+4      	; 0xc8 <.do_copy_data_start>
+
+000000c4 <.do_copy_data_loop>:
+  c4:	05 90       	lpm	r0, Z+
+  c6:	0d 92       	st	X+, r0
+
+000000c8 <.do_copy_data_start>:
+  c8:	a4 30       	cpi	r26, 0x04	; 4
+  ca:	b1 07       	cpc	r27, r17
+  cc:	d9 f7       	brne	.-10     	; 0xc4 <.do_copy_data_loop>
+
+000000ce <__do_clear_bss>:
+  ce:	11 e0       	ldi	r17, 0x01	; 1
+  d0:	a4 e0       	ldi	r26, 0x04	; 4
+  d2:	b1 e0       	ldi	r27, 0x01	; 1
+  d4:	01 c0       	rjmp	.+2      	; 0xd8 <.do_clear_bss_start>
+
+000000d6 <.do_clear_bss_loop>:
+  d6:	1d 92       	st	X+, r1
+
+000000d8 <.do_clear_bss_start>:
+  d8:	ad 30       	cpi	r26, 0x0D	; 13
+  da:	b1 07       	cpc	r27, r17
+  dc:	e1 f7       	brne	.-8      	; 0xd6 <.do_clear_bss_loop>
+  de:	0e 94 75 00 	call	0xea	; 0xea <main>
+  e2:	0c 94 cd 02 	jmp	0x59a	; 0x59a <_exit>
+
+000000e6 <__bad_interrupt>:
+  e6:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+000000ea <main>:
+
+
+int main(void)
+{
+
+	init_all();
+  ea:	0e 94 86 00 	call	0x10c	; 0x10c <init_all>
+	while(1)
+	{
+		if(wireless_buffer_full())
+  ee:	0e 94 1b 01 	call	0x236	; 0x236 <wireless_buffer_full>
+  f2:	88 23       	and	r24, r24
+  f4:	e1 f3       	breq	.-8      	; 0xee <main+0x4>
+		{
+			char* wireless_buffer = get_wireless_buffer();
+  f6:	0e 94 1e 01 	call	0x23c	; 0x23c <get_wireless_buffer>
+  fa:	fc 01       	movw	r30, r24
+			if(*wireless_buffer == 'l')
+  fc:	80 81       	ld	r24, Z
+  fe:	8c 36       	cpi	r24, 0x6C	; 108
+ 100:	b1 f7       	brne	.-20     	; 0xee <main+0x4>
+			{
+				m_red(ON);
+ 102:	6e 9a       	sbi	0x0d, 6	; 13
+ 104:	76 98       	cbi	0x0e, 6	; 14
+				m_green(ON);
+ 106:	6a 9a       	sbi	0x0d, 2	; 13
+ 108:	72 98       	cbi	0x0e, 2	; 14
+ 10a:	f1 cf       	rjmp	.-30     	; 0xee <main+0x4>
+
+0000010c <init_all>:
+bool wireless_buffer_f;
+char* wireless_buffer;
+
+void init_all()
+{
+	m_clockdivide(0);
+ 10c:	e1 e6       	ldi	r30, 0x61	; 97
+ 10e:	f0 e0       	ldi	r31, 0x00	; 0
+ 110:	80 e8       	ldi	r24, 0x80	; 128
+ 112:	80 83       	st	Z, r24
+ 114:	10 82       	st	Z, r1
+	m_disableJTAG();
+ 116:	85 bf       	out	0x35, r24	; 53
+ 118:	85 bf       	out	0x35, r24	; 53
+	
+	//init_communication(CHANNEL, ADDRESS, PACKET_SIZE);
+
+
+	// set timer clock source
+	clear(TCCR1B, CS12);
+ 11a:	e1 e8       	ldi	r30, 0x81	; 129
+ 11c:	f0 e0       	ldi	r31, 0x00	; 0
+ 11e:	80 81       	ld	r24, Z
+ 120:	8b 7f       	andi	r24, 0xFB	; 251
+ 122:	80 83       	st	Z, r24
+	clear(TCCR1B, CS11);
+ 124:	80 81       	ld	r24, Z
+ 126:	8d 7f       	andi	r24, 0xFD	; 253
+ 128:	80 83       	st	Z, r24
+	set(TCCR1B, CS10);
+ 12a:	80 81       	ld	r24, Z
+ 12c:	81 60       	ori	r24, 0x01	; 1
+ 12e:	80 83       	st	Z, r24
+
+	// Set to up to ICR1 PWM mode
+	ICR1 = 0xffff;
+ 130:	8f ef       	ldi	r24, 0xFF	; 255
+ 132:	9f ef       	ldi	r25, 0xFF	; 255
+ 134:	90 93 87 00 	sts	0x0087, r25
+ 138:	80 93 86 00 	sts	0x0086, r24
+	set(TCCR1B, WGM13);
+ 13c:	80 81       	ld	r24, Z
+ 13e:	80 61       	ori	r24, 0x10	; 16
+ 140:	80 83       	st	Z, r24
+	set(TCCR1B, WGM12);
+ 142:	80 81       	ld	r24, Z
+ 144:	88 60       	ori	r24, 0x08	; 8
+ 146:	80 83       	st	Z, r24
+	set(TCCR1A, WGM11);
+ 148:	e0 e8       	ldi	r30, 0x80	; 128
+ 14a:	f0 e0       	ldi	r31, 0x00	; 0
+ 14c:	80 81       	ld	r24, Z
+ 14e:	82 60       	ori	r24, 0x02	; 2
+ 150:	80 83       	st	Z, r24
+	set(TCCR1A, WGM10);
+ 152:	80 81       	ld	r24, Z
+ 154:	81 60       	ori	r24, 0x01	; 1
+ 156:	80 83       	st	Z, r24
+
+	// set there to be an output at B5
+	set(DDRB, 5);
+ 158:	25 9a       	sbi	0x04, 5	; 4
+	set(TCCR1A, COM1A1);
+ 15a:	80 81       	ld	r24, Z
+ 15c:	80 68       	ori	r24, 0x80	; 128
+ 15e:	80 83       	st	Z, r24
+	set(TCCR1A, COM1A0);
+ 160:	80 81       	ld	r24, Z
+ 162:	80 64       	ori	r24, 0x40	; 64
+ 164:	80 83       	st	Z, r24
+
+	// set there to be an output at B6
+	set(DDRB, 6);
+ 166:	26 9a       	sbi	0x04, 6	; 4
+	set(TCCR1A, COM1B1);
+ 168:	80 81       	ld	r24, Z
+ 16a:	80 62       	ori	r24, 0x20	; 32
+ 16c:	80 83       	st	Z, r24
+	set(TCCR1A, COM1B0);
+ 16e:	80 81       	ld	r24, Z
+ 170:	80 61       	ori	r24, 0x10	; 16
+ 172:	80 83       	st	Z, r24
+
+	// don't use the one on pin B7
+	clear(TCCR1A, COM1C1);
+ 174:	80 81       	ld	r24, Z
+ 176:	87 7f       	andi	r24, 0xF7	; 247
+ 178:	80 83       	st	Z, r24
+	clear(TCCR1A, COM1C0);
+ 17a:	80 81       	ld	r24, Z
+ 17c:	8b 7f       	andi	r24, 0xFB	; 251
+ 17e:	80 83       	st	Z, r24
+
+	OCR1A = 0;
+ 180:	10 92 89 00 	sts	0x0089, r1
+ 184:	10 92 88 00 	sts	0x0088, r1
+	OCR1B = 0;
+ 188:	10 92 8b 00 	sts	0x008B, r1
+ 18c:	10 92 8a 00 	sts	0x008A, r1
+
+	
+	// set the directions pins to enable output
+	set(DDRC, 6);
+ 190:	3e 9a       	sbi	0x07, 6	; 7
+	set(DDRC, 7);
+ 192:	3f 9a       	sbi	0x07, 7	; 7
+	
+	
+	*wireless_buffer = 'l';
+ 194:	e0 91 05 01 	lds	r30, 0x0105
+ 198:	f0 91 06 01 	lds	r31, 0x0106
+ 19c:	8c e6       	ldi	r24, 0x6C	; 108
+ 19e:	80 83       	st	Z, r24
+}
+
+void wireless_callback(char* c)
+{
+	wireless_buffer = c;
+	wireless_buffer_f = true;
+ 1a0:	81 e0       	ldi	r24, 0x01	; 1
+ 1a2:	80 93 04 01 	sts	0x0104, r24
+	
+	
+	*wireless_buffer = 'l';
+	wireless_callback(wireless_buffer);
+
+}
+ 1a6:	08 95       	ret
+
+000001a8 <wait>:
+
+
+
+void wait(int n)
+{
+ 1a8:	40 e0       	ldi	r20, 0x00	; 0
+ 1aa:	50 e0       	ldi	r21, 0x00	; 0
+    milliseconds can be achieved.
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+ 1ac:	60 e9       	ldi	r22, 0x90	; 144
+ 1ae:	71 e0       	ldi	r23, 0x01	; 1
+ 1b0:	0a c0       	rjmp	.+20     	; 0x1c6 <wait+0x1e>
+	for(int i = 0; i < n; i++)
+ 1b2:	20 e1       	ldi	r18, 0x10	; 16
+ 1b4:	37 e2       	ldi	r19, 0x27	; 39
+ 1b6:	fb 01       	movw	r30, r22
+ 1b8:	31 97       	sbiw	r30, 0x01	; 1
+ 1ba:	f1 f7       	brne	.-4      	; 0x1b8 <wait+0x10>
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 1bc:	21 50       	subi	r18, 0x01	; 1
+ 1be:	30 40       	sbci	r19, 0x00	; 0
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 1c0:	d1 f7       	brne	.-12     	; 0x1b6 <wait+0xe>
+ 1c2:	4f 5f       	subi	r20, 0xFF	; 255
+ 1c4:	5f 4f       	sbci	r21, 0xFF	; 255
+ 1c6:	48 17       	cp	r20, r24
+ 1c8:	59 07       	cpc	r21, r25
+ 1ca:	9c f3       	brlt	.-26     	; 0x1b2 <wait+0xa>
+	{
+		m_wait(1000);
+	}
+}
+ 1cc:	08 95       	ret
+
+000001ce <set_left>:
+
+// B5 and C6
+void set_left(int n)
+{
+ 1ce:	9c 01       	movw	r18, r24
+
+	int pwm = n;
+	if(n < 0)
+ 1d0:	97 ff       	sbrs	r25, 7
+ 1d2:	02 c0       	rjmp	.+4      	; 0x1d8 <set_left+0xa>
+	{
+		pwm = -n;
+		clear(PORTC, 6);
+ 1d4:	46 98       	cbi	0x08, 6	; 8
+ 1d6:	01 c0       	rjmp	.+2      	; 0x1da <set_left+0xc>
+	}
+	else
+	{
+		set(PORTC, 6);
+ 1d8:	46 9a       	sbi	0x08, 6	; 8
+	}
+	OCR1A = n * 65535;
+ 1da:	b9 01       	movw	r22, r18
+ 1dc:	88 27       	eor	r24, r24
+ 1de:	77 fd       	sbrc	r23, 7
+ 1e0:	80 95       	com	r24
+ 1e2:	98 2f       	mov	r25, r24
+ 1e4:	2f ef       	ldi	r18, 0xFF	; 255
+ 1e6:	3f ef       	ldi	r19, 0xFF	; 255
+ 1e8:	40 e0       	ldi	r20, 0x00	; 0
+ 1ea:	50 e0       	ldi	r21, 0x00	; 0
+ 1ec:	0e 94 ae 02 	call	0x55c	; 0x55c <__mulsi3>
+ 1f0:	70 93 89 00 	sts	0x0089, r23
+ 1f4:	60 93 88 00 	sts	0x0088, r22
+
+}
+ 1f8:	08 95       	ret
+
+000001fa <set_right>:
+
+	
+// B6 and C7
+void set_right(int n)
+{
+ 1fa:	9c 01       	movw	r18, r24
+	int pwm = n;
+	if(n < 0)
+ 1fc:	97 ff       	sbrs	r25, 7
+ 1fe:	02 c0       	rjmp	.+4      	; 0x204 <set_right+0xa>
+	{
+		pwm = -n;
+		clear(PORTC, 7);
+ 200:	47 98       	cbi	0x08, 7	; 8
+ 202:	01 c0       	rjmp	.+2      	; 0x206 <set_right+0xc>
+	}
+	else
+	{
+		set(PORTC, 7);
+ 204:	47 9a       	sbi	0x08, 7	; 8
+	}
+	OCR1B = n * 65535;
+ 206:	b9 01       	movw	r22, r18
+ 208:	88 27       	eor	r24, r24
+ 20a:	77 fd       	sbrc	r23, 7
+ 20c:	80 95       	com	r24
+ 20e:	98 2f       	mov	r25, r24
+ 210:	2f ef       	ldi	r18, 0xFF	; 255
+ 212:	3f ef       	ldi	r19, 0xFF	; 255
+ 214:	40 e0       	ldi	r20, 0x00	; 0
+ 216:	50 e0       	ldi	r21, 0x00	; 0
+ 218:	0e 94 ae 02 	call	0x55c	; 0x55c <__mulsi3>
+ 21c:	70 93 8b 00 	sts	0x008B, r23
+ 220:	60 93 8a 00 	sts	0x008A, r22
+}
+ 224:	08 95       	ret
+
+00000226 <wireless_callback>:
+
+void wireless_callback(char* c)
+{
+	wireless_buffer = c;
+ 226:	90 93 06 01 	sts	0x0106, r25
+ 22a:	80 93 05 01 	sts	0x0105, r24
+	wireless_buffer_f = true;
+ 22e:	81 e0       	ldi	r24, 0x01	; 1
+ 230:	80 93 04 01 	sts	0x0104, r24
+}
+ 234:	08 95       	ret
+
+00000236 <wireless_buffer_full>:
+
+bool wireless_buffer_full()
+{
+	return wireless_buffer_f;
+}
+ 236:	80 91 04 01 	lds	r24, 0x0104
+ 23a:	08 95       	ret
+
+0000023c <get_wireless_buffer>:
+
+char* get_wireless_buffer()
+{
+	wireless_buffer_f = false;
+ 23c:	10 92 04 01 	sts	0x0104, r1
+	return wireless_buffer;
+	
+}
+ 240:	80 91 05 01 	lds	r24, 0x0105
+ 244:	90 91 06 01 	lds	r25, 0x0106
+ 248:	08 95       	ret
+
+0000024a <send_message_to_bot>:
+		}
+	}
+}
+
+void send_message_to_bot(char* c, char address)
+{
+ 24a:	9c 01       	movw	r18, r24
+ 24c:	46 2f       	mov	r20, r22
+	m_rf_send(address, c, address);
+ 24e:	86 2f       	mov	r24, r22
+ 250:	b9 01       	movw	r22, r18
+ 252:	0e 94 11 02 	call	0x422	; 0x422 <m_rf_send>
+}
+ 256:	08 95       	ret
+
+00000258 <send_message>:
+	m_rf_read(&buffer, packet_length);
+	wireless_callback(&buffer);
+}
+
+void send_message(char* c)
+{
+ 258:	cf 93       	push	r28
+ 25a:	df 93       	push	r29
+ 25c:	ec 01       	movw	r28, r24
+	for(int i = 0x24; i <= 0x26; i++)
+	{
+		if(address != i)
+ 25e:	80 91 07 01 	lds	r24, 0x0107
+ 262:	90 91 08 01 	lds	r25, 0x0108
+ 266:	84 97       	sbiw	r24, 0x24	; 36
+ 268:	29 f0       	breq	.+10     	; 0x274 <send_message+0x1c>
+	}
+}
+
+void send_message_to_bot(char* c, char address)
+{
+	m_rf_send(address, c, address);
+ 26a:	84 e2       	ldi	r24, 0x24	; 36
+ 26c:	be 01       	movw	r22, r28
+ 26e:	44 e2       	ldi	r20, 0x24	; 36
+ 270:	0e 94 11 02 	call	0x422	; 0x422 <m_rf_send>
+
+void send_message(char* c)
+{
+	for(int i = 0x24; i <= 0x26; i++)
+	{
+		if(address != i)
+ 274:	80 91 07 01 	lds	r24, 0x0107
+ 278:	90 91 08 01 	lds	r25, 0x0108
+ 27c:	85 97       	sbiw	r24, 0x25	; 37
+ 27e:	29 f0       	breq	.+10     	; 0x28a <send_message+0x32>
+	}
+}
+
+void send_message_to_bot(char* c, char address)
+{
+	m_rf_send(address, c, address);
+ 280:	85 e2       	ldi	r24, 0x25	; 37
+ 282:	be 01       	movw	r22, r28
+ 284:	45 e2       	ldi	r20, 0x25	; 37
+ 286:	0e 94 11 02 	call	0x422	; 0x422 <m_rf_send>
+
+void send_message(char* c)
+{
+	for(int i = 0x24; i <= 0x26; i++)
+	{
+		if(address != i)
+ 28a:	80 91 07 01 	lds	r24, 0x0107
+ 28e:	90 91 08 01 	lds	r25, 0x0108
+ 292:	86 97       	sbiw	r24, 0x26	; 38
+ 294:	29 f0       	breq	.+10     	; 0x2a0 <send_message+0x48>
+	}
+}
+
+void send_message_to_bot(char* c, char address)
+{
+	m_rf_send(address, c, address);
+ 296:	86 e2       	ldi	r24, 0x26	; 38
+ 298:	be 01       	movw	r22, r28
+ 29a:	46 e2       	ldi	r20, 0x26	; 38
+ 29c:	0e 94 11 02 	call	0x422	; 0x422 <m_rf_send>
+		{
+			send_message_to_bot(c, i);
+
+		}
+	}
+}
+ 2a0:	df 91       	pop	r29
+ 2a2:	cf 91       	pop	r28
+ 2a4:	08 95       	ret
+
+000002a6 <__vector_3>:
+	m_rf_open(channel, address, packet_length);
+}
+
+
+ISR(INT2_vect)
+{
+ 2a6:	1f 92       	push	r1
+ 2a8:	0f 92       	push	r0
+ 2aa:	0f b6       	in	r0, 0x3f	; 63
+ 2ac:	0f 92       	push	r0
+ 2ae:	11 24       	eor	r1, r1
+ 2b0:	0f 93       	push	r16
+ 2b2:	1f 93       	push	r17
+ 2b4:	2f 93       	push	r18
+ 2b6:	3f 93       	push	r19
+ 2b8:	4f 93       	push	r20
+ 2ba:	5f 93       	push	r21
+ 2bc:	6f 93       	push	r22
+ 2be:	7f 93       	push	r23
+ 2c0:	8f 93       	push	r24
+ 2c2:	9f 93       	push	r25
+ 2c4:	af 93       	push	r26
+ 2c6:	bf 93       	push	r27
+ 2c8:	ef 93       	push	r30
+ 2ca:	ff 93       	push	r31
+ 2cc:	df 93       	push	r29
+ 2ce:	cf 93       	push	r28
+ 2d0:	0f 92       	push	r0
+ 2d2:	cd b7       	in	r28, 0x3d	; 61
+ 2d4:	de b7       	in	r29, 0x3e	; 62
+	char buffer;
+	m_rf_read(&buffer, packet_length);
+ 2d6:	8e 01       	movw	r16, r28
+ 2d8:	0f 5f       	subi	r16, 0xFF	; 255
+ 2da:	1f 4f       	sbci	r17, 0xFF	; 255
+ 2dc:	c8 01       	movw	r24, r16
+ 2de:	60 91 09 01 	lds	r22, 0x0109
+ 2e2:	0e 94 c2 01 	call	0x384	; 0x384 <m_rf_read>
+	wireless_callback(&buffer);
+ 2e6:	c8 01       	movw	r24, r16
+ 2e8:	0e 94 13 01 	call	0x226	; 0x226 <wireless_callback>
+}
+ 2ec:	0f 90       	pop	r0
+ 2ee:	cf 91       	pop	r28
+ 2f0:	df 91       	pop	r29
+ 2f2:	ff 91       	pop	r31
+ 2f4:	ef 91       	pop	r30
+ 2f6:	bf 91       	pop	r27
+ 2f8:	af 91       	pop	r26
+ 2fa:	9f 91       	pop	r25
+ 2fc:	8f 91       	pop	r24
+ 2fe:	7f 91       	pop	r23
+ 300:	6f 91       	pop	r22
+ 302:	5f 91       	pop	r21
+ 304:	4f 91       	pop	r20
+ 306:	3f 91       	pop	r19
+ 308:	2f 91       	pop	r18
+ 30a:	1f 91       	pop	r17
+ 30c:	0f 91       	pop	r16
+ 30e:	0f 90       	pop	r0
+ 310:	0f be       	out	0x3f, r0	; 63
+ 312:	0f 90       	pop	r0
+ 314:	1f 90       	pop	r1
+ 316:	18 95       	reti
+
+00000318 <init_communication>:
+#include "common_robockey.h"
+
+int channel, address, packet_length;
+
+void init_communication(int c, int a, int l)
+{
+ 318:	cf 92       	push	r12
+ 31a:	df 92       	push	r13
+ 31c:	ef 92       	push	r14
+ 31e:	ff 92       	push	r15
+ 320:	0f 93       	push	r16
+ 322:	1f 93       	push	r17
+ 324:	c8 2e       	mov	r12, r24
+ 326:	19 2f       	mov	r17, r25
+ 328:	d6 2e       	mov	r13, r22
+ 32a:	07 2f       	mov	r16, r23
+ 32c:	7a 01       	movw	r14, r20
+	m_bus_init();
+ 32e:	0e 94 b1 01 	call	0x362	; 0x362 <m_bus_init>
+	channel = c;
+ 332:	c0 92 0b 01 	sts	0x010B, r12
+ 336:	10 93 0c 01 	sts	0x010C, r17
+	address = a;
+ 33a:	d0 92 07 01 	sts	0x0107, r13
+ 33e:	00 93 08 01 	sts	0x0108, r16
+	packet_length = l;
+ 342:	e0 92 09 01 	sts	0x0109, r14
+ 346:	f0 92 0a 01 	sts	0x010A, r15
+
+	m_rf_open(channel, address, packet_length);
+ 34a:	8c 2d       	mov	r24, r12
+ 34c:	6d 2d       	mov	r22, r13
+ 34e:	4e 2d       	mov	r20, r14
+ 350:	0e 94 5e 02 	call	0x4bc	; 0x4bc <m_rf_open>
+}
+ 354:	1f 91       	pop	r17
+ 356:	0f 91       	pop	r16
+ 358:	ff 90       	pop	r15
+ 35a:	ef 90       	pop	r14
+ 35c:	df 90       	pop	r13
+ 35e:	cf 90       	pop	r12
+ 360:	08 95       	ret
+
+00000362 <m_bus_init>:
+#include "m_bus.h"
+
+void m_bus_init(void)
+{
+	// ENABLE PULLUPS
+	set(PORTD,0);
+ 362:	58 9a       	sbi	0x0b, 0	; 11
+	set(PORTD,1);
+ 364:	59 9a       	sbi	0x0b, 1	; 11
+	set(PORTD,2);
+ 366:	5a 9a       	sbi	0x0b, 2	; 11
+	
+	// CONFIGURE THE CLOCK
+	TWBR = 12;	// CLK freq = CPU clock / (16 + 2*TWBR*(4^TWPS)), 16MHz clock, TWBR=12, TWPS=00 -> 400kHz
+ 368:	8c e0       	ldi	r24, 0x0C	; 12
+ 36a:	80 93 b8 00 	sts	0x00B8, r24
+
+	// ENABLE interrupts in INT2 (D2)
+	set(EICRA,ISC21); clear(EICRA,ISC20); // trigger on falling edge
+ 36e:	e9 e6       	ldi	r30, 0x69	; 105
+ 370:	f0 e0       	ldi	r31, 0x00	; 0
+ 372:	80 81       	ld	r24, Z
+ 374:	80 62       	ori	r24, 0x20	; 32
+ 376:	80 83       	st	Z, r24
+ 378:	80 81       	ld	r24, Z
+ 37a:	8f 7e       	andi	r24, 0xEF	; 239
+ 37c:	80 83       	st	Z, r24
+	set(EIMSK,INT2); // demask the interrupt
+ 37e:	ea 9a       	sbi	0x1d, 2	; 29
+	sei(); // enable global interrupts
+ 380:	78 94       	sei
+ 382:	08 95       	ret
+
+00000384 <m_rf_read>:
+	
+	return 1;
+}
+
+char m_rf_read(char* buffer, char packet_length)
+{
+ 384:	9c 01       	movw	r18, r24
+
+	char bytes;
+	int i;
+
+	// START
+	TWCR = (1<<TWEN)|(1<<TWSTA)|(1<<TWINT);
+ 386:	84 ea       	ldi	r24, 0xA4	; 164
+ 388:	80 93 bc 00 	sts	0x00BC, r24
+	while(!(TWCR & (1<<TWINT))){};
+ 38c:	80 91 bc 00 	lds	r24, 0x00BC
+ 390:	87 ff       	sbrs	r24, 7
+ 392:	fc cf       	rjmp	.-8      	; 0x38c <m_rf_read+0x8>
+	
+	// ADDRESS (in Master-Receiver Mode)
+	TWDR = ((MRFTWIADDR<<1)|1);
+ 394:	81 e5       	ldi	r24, 0x51	; 81
+ 396:	80 93 bb 00 	sts	0x00BB, r24
+	TWCR = (1<<TWINT) | (1<<TWEN);
+ 39a:	84 e8       	ldi	r24, 0x84	; 132
+ 39c:	80 93 bc 00 	sts	0x00BC, r24
+	while(!(TWCR & (1<<TWINT))){}; // wait until finished sending address
+ 3a0:	80 91 bc 00 	lds	r24, 0x00BC
+ 3a4:	87 ff       	sbrs	r24, 7
+ 3a6:	fc cf       	rjmp	.-8      	; 0x3a0 <m_rf_read+0x1c>
+	if((TWSR & 0xF8)== 0x48){ // ACK was not received
+ 3a8:	80 91 b9 00 	lds	r24, 0x00B9
+ 3ac:	88 7f       	andi	r24, 0xF8	; 248
+ 3ae:	88 34       	cpi	r24, 0x48	; 72
+ 3b0:	91 f0       	breq	.+36     	; 0x3d6 <m_rf_read+0x52>
+		return 0; // not connected/listening
+	}
+	
+
+	// (BYTES)
+	TWCR = (1<<TWINT) | (1<<TWEA) | (1<<TWEN);	// clear the flag, enable ACKs, and wait for another byte
+ 3b2:	84 ec       	ldi	r24, 0xC4	; 196
+ 3b4:	80 93 bc 00 	sts	0x00BC, r24
+	while(!(TWCR & (1<<TWINT))){}; // wait for an interrupt to signal that a new byte is available
+ 3b8:	80 91 bc 00 	lds	r24, 0x00BC
+ 3bc:	87 ff       	sbrs	r24, 7
+ 3be:	fc cf       	rjmp	.-8      	; 0x3b8 <m_rf_read+0x34>
+	bytes = TWDR;
+ 3c0:	80 91 bb 00 	lds	r24, 0x00BB
+	if(bytes != packet_length){
+ 3c4:	86 17       	cp	r24, r22
+ 3c6:	39 f4       	brne	.+14     	; 0x3d6 <m_rf_read+0x52>
+ 3c8:	a0 e0       	ldi	r26, 0x00	; 0
+ 3ca:	b0 e0       	ldi	r27, 0x00	; 0
+		TWCR = (1<<TWINT)|(1<<TWEN)| (1<<TWSTO); // let go of the line (STOP)
+		return 0; // indicate length mismatch
+	}		
+	
+	// (DATA_0 ... DATA_N)
+	for(i=0;i<(bytes-1);i++)
+ 3cc:	70 e0       	ldi	r23, 0x00	; 0
+ 3ce:	61 50       	subi	r22, 0x01	; 1
+ 3d0:	70 40       	sbci	r23, 0x00	; 0
+	{
+		TWCR = (1<<TWINT) | (1<<TWEA) | (1<<TWEN);	// clear the flag, enable ACKs, and wait for another byte
+ 3d2:	94 ec       	ldi	r25, 0xC4	; 196
+ 3d4:	12 c0       	rjmp	.+36     	; 0x3fa <m_rf_read+0x76>
+	// (BYTES)
+	TWCR = (1<<TWINT) | (1<<TWEA) | (1<<TWEN);	// clear the flag, enable ACKs, and wait for another byte
+	while(!(TWCR & (1<<TWINT))){}; // wait for an interrupt to signal that a new byte is available
+	bytes = TWDR;
+	if(bytes != packet_length){
+		TWCR = (1<<TWINT)|(1<<TWEN)| (1<<TWSTO); // let go of the line (STOP)
+ 3d6:	84 e9       	ldi	r24, 0x94	; 148
+ 3d8:	80 93 bc 00 	sts	0x00BC, r24
+ 3dc:	80 e0       	ldi	r24, 0x00	; 0
+ 3de:	08 95       	ret
+	}		
+	
+	// (DATA_0 ... DATA_N)
+	for(i=0;i<(bytes-1);i++)
+	{
+		TWCR = (1<<TWINT) | (1<<TWEA) | (1<<TWEN);	// clear the flag, enable ACKs, and wait for another byte
+ 3e0:	90 93 bc 00 	sts	0x00BC, r25
+		while(!(TWCR & (1<<TWINT))){}; // wait for an interrupt to signal that a new byte is available
+ 3e4:	80 91 bc 00 	lds	r24, 0x00BC
+ 3e8:	87 ff       	sbrs	r24, 7
+ 3ea:	fc cf       	rjmp	.-8      	; 0x3e4 <m_rf_read+0x60>
+		buffer[i] = TWDR;
+ 3ec:	80 91 bb 00 	lds	r24, 0x00BB
+ 3f0:	f9 01       	movw	r30, r18
+ 3f2:	ea 0f       	add	r30, r26
+ 3f4:	fb 1f       	adc	r31, r27
+ 3f6:	80 83       	st	Z, r24
+		TWCR = (1<<TWINT)|(1<<TWEN)| (1<<TWSTO); // let go of the line (STOP)
+		return 0; // indicate length mismatch
+	}		
+	
+	// (DATA_0 ... DATA_N)
+	for(i=0;i<(bytes-1);i++)
+ 3f8:	11 96       	adiw	r26, 0x01	; 1
+ 3fa:	a6 17       	cp	r26, r22
+ 3fc:	b7 07       	cpc	r27, r23
+ 3fe:	84 f3       	brlt	.-32     	; 0x3e0 <m_rf_read+0x5c>
+	{
+		TWCR = (1<<TWINT) | (1<<TWEA) | (1<<TWEN);	// clear the flag, enable ACKs, and wait for another byte
+		while(!(TWCR & (1<<TWINT))){}; // wait for an interrupt to signal that a new byte is available
+		buffer[i] = TWDR;
+	}
+	TWCR = (1<<TWINT) | (1<<TWEN);	// clear the flag, no ACK, and wait for another byte
+ 400:	84 e8       	ldi	r24, 0x84	; 132
+ 402:	80 93 bc 00 	sts	0x00BC, r24
+	while(!(TWCR & (1<<TWINT))){}; // wait for an interrupt to signal that a new byte is available
+ 406:	80 91 bc 00 	lds	r24, 0x00BC
+ 40a:	87 ff       	sbrs	r24, 7
+ 40c:	fc cf       	rjmp	.-8      	; 0x406 <m_rf_read+0x82>
+	buffer[i++] = TWDR;
+ 40e:	80 91 bb 00 	lds	r24, 0x00BB
+ 412:	a2 0f       	add	r26, r18
+ 414:	b3 1f       	adc	r27, r19
+ 416:	8c 93       	st	X, r24
+	
+	// STOP
+	TWCR = (1<<TWINT)|(1<<TWEN)| (1<<TWSTO);
+ 418:	84 e9       	ldi	r24, 0x94	; 148
+ 41a:	80 93 bc 00 	sts	0x00BC, r24
+ 41e:	81 e0       	ldi	r24, 0x01	; 1
+
+	return 1;
+}
+ 420:	08 95       	ret
+
+00000422 <m_rf_send>:
+
+char m_rf_send(char TXaddress, char* buffer, char packet_length)
+{
+ 422:	98 2f       	mov	r25, r24
+	// START | MRFTWIADDR | MRFSEND | TXaddress | DATA_0 | ... | DATA_N | STOP
+	
+	int i;
+	
+	// DISABLE INTERRUPTS
+	cli();
+ 424:	f8 94       	cli
+	
+	// START
+	TWCR = (1<<TWEN)|(1<<TWSTA)|(1<<TWINT);
+ 426:	84 ea       	ldi	r24, 0xA4	; 164
+ 428:	80 93 bc 00 	sts	0x00BC, r24
+	while(!(TWCR & (1<<TWINT))){};
+ 42c:	80 91 bc 00 	lds	r24, 0x00BC
+ 430:	87 ff       	sbrs	r24, 7
+ 432:	fc cf       	rjmp	.-8      	; 0x42c <m_rf_send+0xa>
+
+	// ADDRESS
+	TWDR = MRFTWIADDR<<1;
+ 434:	80 e5       	ldi	r24, 0x50	; 80
+ 436:	80 93 bb 00 	sts	0x00BB, r24
+	TWCR = (1<<TWINT) | (1<<TWEN);
+ 43a:	84 e8       	ldi	r24, 0x84	; 132
+ 43c:	80 93 bc 00 	sts	0x00BC, r24
+	while(!(TWCR & (1<<TWINT))){};
+ 440:	80 91 bc 00 	lds	r24, 0x00BC
+ 444:	87 ff       	sbrs	r24, 7
+ 446:	fc cf       	rjmp	.-8      	; 0x440 <m_rf_send+0x1e>
+	if((TWSR & 0xF8)== 0x20){ // ACK was not received - may not be connected/listening
+ 448:	80 91 b9 00 	lds	r24, 0x00B9
+ 44c:	88 7f       	andi	r24, 0xF8	; 248
+ 44e:	80 32       	cpi	r24, 0x20	; 32
+ 450:	31 f4       	brne	.+12     	; 0x45e <m_rf_send+0x3c>
+		TWCR = (1<<TWINT)|(1<<TWEN)| (1<<TWSTO); // let go of the line (STOP)
+ 452:	84 e9       	ldi	r24, 0x94	; 148
+ 454:	80 93 bc 00 	sts	0x00BC, r24
+		sei();	// re-enable interrupts
+ 458:	78 94       	sei
+ 45a:	80 e0       	ldi	r24, 0x00	; 0
+ 45c:	08 95       	ret
+		return 0;
+	}
+	
+	// SEND THE DESIRED MRF MODE (SEND)
+	TWDR = MRFSEND;
+ 45e:	83 e0       	ldi	r24, 0x03	; 3
+ 460:	80 93 bb 00 	sts	0x00BB, r24
+	TWCR = (1<<TWINT) | (1<<TWEN);
+ 464:	84 e8       	ldi	r24, 0x84	; 132
+ 466:	80 93 bc 00 	sts	0x00BC, r24
+	while(!(TWCR & (1<<TWINT))){};
+ 46a:	80 91 bc 00 	lds	r24, 0x00BC
+ 46e:	87 ff       	sbrs	r24, 7
+ 470:	fc cf       	rjmp	.-8      	; 0x46a <m_rf_send+0x48>
+	
+	// SEND THE DESIRED MRF MODE (SEND)
+	TWDR = TXaddress;
+ 472:	90 93 bb 00 	sts	0x00BB, r25
+	TWCR = (1<<TWINT) | (1<<TWEN);
+ 476:	84 e8       	ldi	r24, 0x84	; 132
+ 478:	80 93 bc 00 	sts	0x00BC, r24
+	while(!(TWCR & (1<<TWINT))){};
+ 47c:	80 91 bc 00 	lds	r24, 0x00BC
+ 480:	87 ff       	sbrs	r24, 7
+ 482:	fc cf       	rjmp	.-8      	; 0x47c <m_rf_send+0x5a>
+ 484:	20 e0       	ldi	r18, 0x00	; 0
+ 486:	30 e0       	ldi	r19, 0x00	; 0
+
+	// SEND DATA
+	for(i=0;i<packet_length;i++){
+ 488:	50 e0       	ldi	r21, 0x00	; 0
+		TWDR = buffer[i];
+		TWCR = (1<<TWINT) | (1<<TWEN);
+ 48a:	94 e8       	ldi	r25, 0x84	; 132
+ 48c:	0e c0       	rjmp	.+28     	; 0x4aa <m_rf_send+0x88>
+	TWCR = (1<<TWINT) | (1<<TWEN);
+	while(!(TWCR & (1<<TWINT))){};
+
+	// SEND DATA
+	for(i=0;i<packet_length;i++){
+		TWDR = buffer[i];
+ 48e:	fb 01       	movw	r30, r22
+ 490:	e2 0f       	add	r30, r18
+ 492:	f3 1f       	adc	r31, r19
+ 494:	80 81       	ld	r24, Z
+ 496:	80 93 bb 00 	sts	0x00BB, r24
+		TWCR = (1<<TWINT) | (1<<TWEN);
+ 49a:	90 93 bc 00 	sts	0x00BC, r25
+		while(!(TWCR & (1<<TWINT))){};
+ 49e:	80 91 bc 00 	lds	r24, 0x00BC
+ 4a2:	87 ff       	sbrs	r24, 7
+ 4a4:	fc cf       	rjmp	.-8      	; 0x49e <m_rf_send+0x7c>
+	TWDR = TXaddress;
+	TWCR = (1<<TWINT) | (1<<TWEN);
+	while(!(TWCR & (1<<TWINT))){};
+
+	// SEND DATA
+	for(i=0;i<packet_length;i++){
+ 4a6:	2f 5f       	subi	r18, 0xFF	; 255
+ 4a8:	3f 4f       	sbci	r19, 0xFF	; 255
+ 4aa:	24 17       	cp	r18, r20
+ 4ac:	35 07       	cpc	r19, r21
+ 4ae:	7c f3       	brlt	.-34     	; 0x48e <m_rf_send+0x6c>
+		TWCR = (1<<TWINT) | (1<<TWEN);
+		while(!(TWCR & (1<<TWINT))){};
+	}
+	
+	// STOP
+	TWCR = (1<<TWINT)|(1<<TWEN)| (1<<TWSTO);
+ 4b0:	84 e9       	ldi	r24, 0x94	; 148
+ 4b2:	80 93 bc 00 	sts	0x00BC, r24
+	
+	// RE-ENABLE INTERRUPTS
+	sei();
+ 4b6:	78 94       	sei
+ 4b8:	81 e0       	ldi	r24, 0x01	; 1
+	
+	return 1;
+}
+ 4ba:	08 95       	ret
+
+000004bc <m_rf_open>:
+#define MRFINIT			0x01
+#define	MRFREAD			0x02
+#define MRFSEND			0x03
+
+char m_rf_open(char channel, char RXaddress, char packet_length)
+{	
+ 4bc:	ff 92       	push	r15
+ 4be:	0f 93       	push	r16
+ 4c0:	1f 93       	push	r17
+ 4c2:	18 2f       	mov	r17, r24
+ 4c4:	06 2f       	mov	r16, r22
+ 4c6:	f4 2e       	mov	r15, r20
+	// START | MRFTWIADDR | MRFINIT | channel | RXaddress | packet_length | STOP
+	
+	m_bus_init();
+ 4c8:	0e 94 b1 01 	call	0x362	; 0x362 <m_bus_init>
+	
+	// START
+	TWCR = (1<<TWEN)|(1<<TWSTA)|(1<<TWINT);
+ 4cc:	84 ea       	ldi	r24, 0xA4	; 164
+ 4ce:	80 93 bc 00 	sts	0x00BC, r24
+	while(!(TWCR & (1<<TWINT))){};
+ 4d2:	80 91 bc 00 	lds	r24, 0x00BC
+ 4d6:	87 ff       	sbrs	r24, 7
+ 4d8:	fc cf       	rjmp	.-8      	; 0x4d2 <m_rf_open+0x16>
+	
+	// ADDRESS
+	TWDR = MRFTWIADDR<<1;
+ 4da:	80 e5       	ldi	r24, 0x50	; 80
+ 4dc:	80 93 bb 00 	sts	0x00BB, r24
+	TWCR = (1<<TWINT) | (1<<TWEN);
+ 4e0:	84 e8       	ldi	r24, 0x84	; 132
+ 4e2:	80 93 bc 00 	sts	0x00BC, r24
+	while(!(TWCR & (1<<TWINT))){};
+ 4e6:	80 91 bc 00 	lds	r24, 0x00BC
+ 4ea:	87 ff       	sbrs	r24, 7
+ 4ec:	fc cf       	rjmp	.-8      	; 0x4e6 <m_rf_open+0x2a>
+	if((TWSR & 0xF8)== 0x20){ // ACK was not received - may not be connected/listening
+ 4ee:	80 91 b9 00 	lds	r24, 0x00B9
+ 4f2:	88 7f       	andi	r24, 0xF8	; 248
+ 4f4:	80 32       	cpi	r24, 0x20	; 32
+ 4f6:	29 f4       	brne	.+10     	; 0x502 <m_rf_open+0x46>
+		TWCR = (1<<TWINT)|(1<<TWEN)| (1<<TWSTO); // let go of the line (STOP)
+ 4f8:	84 e9       	ldi	r24, 0x94	; 148
+ 4fa:	80 93 bc 00 	sts	0x00BC, r24
+ 4fe:	80 e0       	ldi	r24, 0x00	; 0
+ 500:	29 c0       	rjmp	.+82     	; 0x554 <m_rf_open+0x98>
+		return 0;
+	}
+	
+	// SEND THE DESIRED MRF MODE
+	TWDR = MRFINIT;
+ 502:	81 e0       	ldi	r24, 0x01	; 1
+ 504:	80 93 bb 00 	sts	0x00BB, r24
+	TWCR = (1<<TWINT) | (1<<TWEN);
+ 508:	84 e8       	ldi	r24, 0x84	; 132
+ 50a:	80 93 bc 00 	sts	0x00BC, r24
+	while(!(TWCR & (1<<TWINT))){};
+ 50e:	80 91 bc 00 	lds	r24, 0x00BC
+ 512:	87 ff       	sbrs	r24, 7
+ 514:	fc cf       	rjmp	.-8      	; 0x50e <m_rf_open+0x52>
+	
+	// SEND DATA
+	TWDR = channel;
+ 516:	10 93 bb 00 	sts	0x00BB, r17
+	TWCR = (1<<TWINT) | (1<<TWEN);
+ 51a:	84 e8       	ldi	r24, 0x84	; 132
+ 51c:	80 93 bc 00 	sts	0x00BC, r24
+	while(!(TWCR & (1<<TWINT))){};
+ 520:	80 91 bc 00 	lds	r24, 0x00BC
+ 524:	87 ff       	sbrs	r24, 7
+ 526:	fc cf       	rjmp	.-8      	; 0x520 <m_rf_open+0x64>
+	
+	TWDR = RXaddress;
+ 528:	00 93 bb 00 	sts	0x00BB, r16
+	TWCR = (1<<TWINT) | (1<<TWEN);
+ 52c:	84 e8       	ldi	r24, 0x84	; 132
+ 52e:	80 93 bc 00 	sts	0x00BC, r24
+	while(!(TWCR & (1<<TWINT))){};
+ 532:	80 91 bc 00 	lds	r24, 0x00BC
+ 536:	87 ff       	sbrs	r24, 7
+ 538:	fc cf       	rjmp	.-8      	; 0x532 <m_rf_open+0x76>
+	
+	TWDR = packet_length;
+ 53a:	f0 92 bb 00 	sts	0x00BB, r15
+	TWCR = (1<<TWINT) | (1<<TWEN);
+ 53e:	84 e8       	ldi	r24, 0x84	; 132
+ 540:	80 93 bc 00 	sts	0x00BC, r24
+	while(!(TWCR & (1<<TWINT))){};
+ 544:	80 91 bc 00 	lds	r24, 0x00BC
+ 548:	87 ff       	sbrs	r24, 7
+ 54a:	fc cf       	rjmp	.-8      	; 0x544 <m_rf_open+0x88>
+	
+	// STOP
+	TWCR = (1<<TWINT)|(1<<TWEN)| (1<<TWSTO);
+ 54c:	84 e9       	ldi	r24, 0x94	; 148
+ 54e:	80 93 bc 00 	sts	0x00BC, r24
+ 552:	81 e0       	ldi	r24, 0x01	; 1
+	
+	return 1;
+}
+ 554:	1f 91       	pop	r17
+ 556:	0f 91       	pop	r16
+ 558:	ff 90       	pop	r15
+ 55a:	08 95       	ret
+
+0000055c <__mulsi3>:
+ 55c:	62 9f       	mul	r22, r18
+ 55e:	d0 01       	movw	r26, r0
+ 560:	73 9f       	mul	r23, r19
+ 562:	f0 01       	movw	r30, r0
+ 564:	82 9f       	mul	r24, r18
+ 566:	e0 0d       	add	r30, r0
+ 568:	f1 1d       	adc	r31, r1
+ 56a:	64 9f       	mul	r22, r20
+ 56c:	e0 0d       	add	r30, r0
+ 56e:	f1 1d       	adc	r31, r1
+ 570:	92 9f       	mul	r25, r18
+ 572:	f0 0d       	add	r31, r0
+ 574:	83 9f       	mul	r24, r19
+ 576:	f0 0d       	add	r31, r0
+ 578:	74 9f       	mul	r23, r20
+ 57a:	f0 0d       	add	r31, r0
+ 57c:	65 9f       	mul	r22, r21
+ 57e:	f0 0d       	add	r31, r0
+ 580:	99 27       	eor	r25, r25
+ 582:	72 9f       	mul	r23, r18
+ 584:	b0 0d       	add	r27, r0
+ 586:	e1 1d       	adc	r30, r1
+ 588:	f9 1f       	adc	r31, r25
+ 58a:	63 9f       	mul	r22, r19
+ 58c:	b0 0d       	add	r27, r0
+ 58e:	e1 1d       	adc	r30, r1
+ 590:	f9 1f       	adc	r31, r25
+ 592:	bd 01       	movw	r22, r26
+ 594:	cf 01       	movw	r24, r30
+ 596:	11 24       	eor	r1, r1
+ 598:	08 95       	ret
+
+0000059a <_exit>:
+ 59a:	f8 94       	cli
+
+0000059c <__stop_program>:
+ 59c:	ff cf       	rjmp	.-2      	; 0x59c <__stop_program>
