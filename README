@@ -29,7 +29,7 @@ You will be given access to the following functions and variables:
 	Lenable: B5
 	Ldirection: C6 (high -> forward, low -> backward)
 	Renable: B6
-	Ldirection: B7 (high -> forward, low -> backward)
+	Rdirection: C7 (high -> forward, low -> backward)
 	
 	
 	**
