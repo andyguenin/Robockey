@@ -11,7 +11,7 @@ void init_all()
 	m_disableJTAG();
 
 	
-	//init_communication(CHANNEL, ADDRESS, PACKET_SIZE);
+	init_communication(CHANNEL, ADDRESS, PACKET_SIZE);
 
 
 	// set timer clock source
