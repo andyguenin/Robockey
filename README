@@ -2,7 +2,6 @@ This code is for the MEAM510 robockey project using an ATmega32u4 processor
 
 In your main c file, you only need to include the "common_robockey.h" header file
 
-Testing Read/Write permissions - Kyle
 
 You must define and set the following characters:
 	ADDRESS
