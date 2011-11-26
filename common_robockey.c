@@ -10,10 +10,17 @@ void init_all()
 	m_clockdivide(0);
 	m_disableJTAG();
 
+	//initializing mWii
+	char wii_status = m_wii_open();
+	if(wii_status){
+	  m_green(ON);
+	}else
+	  m_red(ON);
 	
-	init_communication(CHANNEL, ADDRESS, PACKET_SIZE);
+	
+	//init_communication(CHANNEL, ADDRESS, PACKET_SIZE);
 
-
+	
 	// set timer clock source
 	clear(TCCR1B, CS12);
 	clear(TCCR1B, CS11);
@@ -24,17 +31,17 @@ void init_all()
 	set(TCCR1B, WGM13);
 	set(TCCR1B, WGM12);
 	set(TCCR1A, WGM11);
-	set(TCCR1A, WGM10);
+	clear(TCCR1A, WGM10);
 
 	// set there to be an output at B5
 	set(DDRB, 5);
 	set(TCCR1A, COM1A1);
-	set(TCCR1A, COM1A0);
+	clear(TCCR1A, COM1A0);
 
 	// set there to be an output at B6
 	set(DDRB, 6);
 	set(TCCR1A, COM1B1);
-	set(TCCR1A, COM1B0);
+	clear(TCCR1A, COM1B0);
 
 	// don't use the one on pin B7
 	clear(TCCR1A, COM1C1);
@@ -48,8 +55,10 @@ void init_all()
 	set(DDRC, 6);
 	set(DDRC, 7);
 	
-	
+	clear(PORTC, 6);
+	clear(PORTC, 7);
 
+	
 }
 
 
@@ -65,7 +74,6 @@ void wait(int n)
 // B5 and C6
 void set_left(int n)
 {
-
 	int pwm = n;
 	if(n < 0)
 	{
@@ -76,7 +84,7 @@ void set_left(int n)
 	{
 		set(PORTC, 6);
 	}
-	OCR1A = n * 65535;
+	OCR1A = pwm * 655;
 
 }
 
@@ -94,7 +102,7 @@ void set_right(int n)
 	{
 		set(PORTC, 7);
 	}
-	OCR1B = n * 65535;
+	OCR1B = pwm * 655;
 }
 
 void wireless_callback(char* c)

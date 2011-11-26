@@ -1,5 +1,5 @@
-Robockey.o: ../Robockey.c ../common_robockey.h ../robockey.h \
-  ../m_general.h c:/winavr-20100110/lib/gcc/../../avr/include/stdint.h \
+m_wii.o: ../m_wii.c ../m_general.h \
+  c:/winavr-20100110/lib/gcc/../../avr/include/stdint.h \
   c:\winavr-20100110\bin\../lib/gcc/avr/4.3.3/include/stdbool.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/io.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/sfr_defs.h \
@@ -15,14 +15,9 @@ Robockey.o: ../Robockey.c ../common_robockey.h ../robockey.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/interrupt.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h \
-  c:/winavr-20100110/lib/gcc/../../avr/include/math.h ../communication.h \
+  c:/winavr-20100110/lib/gcc/../../avr/include/math.h ../m_wii.h \
   ../m_bus.h c:/winavr-20100110/lib/gcc/../../avr/include/util/twi.h \
-  ../m_rf.h ../m_wii.h ../m_usb.h \
-  c:/winavr-20100110/lib/gcc/../../avr/include/stdlib.h
-
-../common_robockey.h:
-
-../robockey.h:
+  ../m_usb.h c:/winavr-20100110/lib/gcc/../../avr/include/stdlib.h
 
 ../m_general.h:
 
@@ -60,15 +55,11 @@ c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h:
 
 c:/winavr-20100110/lib/gcc/../../avr/include/math.h:
 
-../communication.h:
+../m_wii.h:
 
 ../m_bus.h:
 
 c:/winavr-20100110/lib/gcc/../../avr/include/util/twi.h:
-
-../m_rf.h:
-
-../m_wii.h:
 
 ../m_usb.h:
 

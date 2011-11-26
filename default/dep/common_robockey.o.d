@@ -18,7 +18,8 @@ common_robockey.o: ../common_robockey.c ../common_robockey.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/math.h ../communication.h \
   ../m_bus.h c:/winavr-20100110/lib/gcc/../../avr/include/util/twi.h \
-  ../m_rf.h
+  ../m_rf.h ../m_wii.h ../m_usb.h \
+  c:/winavr-20100110/lib/gcc/../../avr/include/stdlib.h
 
 ../common_robockey.h:
 
@@ -67,3 +68,9 @@ c:/winavr-20100110/lib/gcc/../../avr/include/math.h:
 c:/winavr-20100110/lib/gcc/../../avr/include/util/twi.h:
 
 ../m_rf.h:
+
+../m_wii.h:
+
+../m_usb.h:
+
+c:/winavr-20100110/lib/gcc/../../avr/include/stdlib.h:
