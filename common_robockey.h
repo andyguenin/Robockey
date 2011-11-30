@@ -5,6 +5,7 @@
 #include "m_rf.h"
 #include "m_wii.h"
 #include "m_usb.h"
+#include "position.h"
 #include <math.h>
 
 void init_all();

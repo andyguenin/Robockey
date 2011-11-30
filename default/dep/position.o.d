@@ -1,6 +1,5 @@
-common_robockey.o: ../common_robockey.c ../common_robockey.h \
-  ../robockey.h ../m_general.h \
-  c:/winavr-20100110/lib/gcc/../../avr/include/stdint.h \
+position.o: ../position.c ../common_robockey.h ../robockey.h \
+  ../m_general.h c:/winavr-20100110/lib/gcc/../../avr/include/stdint.h \
   c:\winavr-20100110\bin\../lib/gcc/avr/4.3.3/include/stdbool.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/io.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/sfr_defs.h \
