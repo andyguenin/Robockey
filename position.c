@@ -249,7 +249,7 @@ void get_position(unsigned int* inp, double* location)
 	
 	double theta = theta_rot;
 	double dist = d(x_init, y_init, x0,y0);
-    double theta1 = atan2(y0 - y_init, x0 - x_init);
+    double theta1 = pi - atan2(- y0 + y_init, - x0 + x_init);
     double x = dist * scale * cos(theta1 + theta_rot);
     double y = dist * scale * sin(theta1 + theta_rot);
 
