@@ -13,18 +13,17 @@
 double min3(double a, double b, double c);
 double min4(double a, double b, double c, double d);
 
-double location[] = {0,0,0};
 
-double* get_position(int* inp)
+void get_position(unsigned int* inp, double* location)
 {
-	int xi1 = inp[0];
-    int yi1 = inp[1];
-    int xi2 = inp[2];
-    int yi2 = inp[3];
-    int xi3 = inp[4];
-    int yi3 = inp[5];
-    int xi4 = inp[6];
-    int yi4 = inp[7]; 
+	int xi1 = (int)(inp[0]);
+    int yi1 = (int)(inp[1]);
+    int xi2 = (int)(inp[2]);
+    int yi2 = (int)(inp[3]);
+    int xi3 = (int)(inp[4]);
+    int yi3 = (int)(inp[5]);
+    int xi4 = (int)(inp[6]);
+    int yi4 = (int)(inp[7]);
 
 	double x0 = 0;
 	double y0 = 0;
@@ -257,7 +256,6 @@ double* get_position(int* inp)
 	location[0] = x;
 	location[1] = y;
 	location[2] = theta;
-	return location;
 
 }
 

@@ -1,4 +1,4 @@
-double* get_position(int* position);
+void get_position(unsigned int* position, double* location);
 void set_position(int x, int y);
 
 int x_init;
