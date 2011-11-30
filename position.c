@@ -8,7 +8,7 @@
 #define y3 -14.5
 #define x4 -10.563
 #define y4 2.483
-
+#define pi 3.1415926535
 #define d(a, b, c, d) ( sqrt((a - c)*(a - c) + (b-d)*(b-d)))
 double min3(double a, double b, double c);
 double min4(double a, double b, double c, double d);
@@ -248,11 +248,11 @@ double* get_position(int* inp)
 		scale = d(x1,y1,0,0) / d(x0,y0, inp[pos * 2 ], inp[pos * 2 + 1]);
 	}
 	
-	double theta = theta_rot;
+	double theta = -theta_rot + pi/2;
 	double dist = d(x_init, y_init, x0,y0);
     double theta1 = atan2(x_init - x0, y_init - y0);
-    double x = dist * scale * cos(theta1 - theta);
-    double y = dist * scale * sin(theta1 - theta);
+    double x = dist * scale * cos(theta1 - theta_rot);
+    double y = dist * scale * sin(theta1 - theta_rot);
 
 	location[0] = x;
 	location[1] = y;
