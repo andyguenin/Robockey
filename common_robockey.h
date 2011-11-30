@@ -1,3 +1,4 @@
+#include "bot.h"
 #include "robockey.h"
 #include "m_general.h"
 #include "communication.h"
@@ -7,6 +8,15 @@
 #include "m_usb.h"
 #include "position.h"
 #include <math.h>
+#ifdef SNIPER
+#include "sniper.h"
+#endif
+#ifdef GRINDER
+#include "grinder.h"
+#endif
+#ifdef GOALIE
+#include "goalie.h"
+#endif
 
 void init_all();
 
