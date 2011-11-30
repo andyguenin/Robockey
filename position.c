@@ -247,11 +247,11 @@ void get_position(unsigned int* inp, double* location)
 		scale = d(x1,y1,0,0) / d(x0,y0, inp[pos * 2 ], inp[pos * 2 + 1]);
 	}
 	
-	double theta = -theta_rot + pi/2;
+	double theta = theta_rot;
 	double dist = d(x_init, y_init, x0,y0);
-    double theta1 = atan2(x_init - x0, y_init - y0);
-    double x = dist * scale * cos(theta1 - theta_rot);
-    double y = dist * scale * sin(theta1 - theta_rot);
+    double theta1 = atan2(y0 - y_init, x0 - x_init);
+    double x = dist * scale * cos(theta1 + theta_rot);
+    double y = dist * scale * sin(theta1 + theta_rot);
 
 	location[0] = x;
 	location[1] = y;
