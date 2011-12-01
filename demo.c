@@ -80,6 +80,15 @@ void position_demo()
       m_usb_tx_int((int)(x * 100));
       m_usb_tx_int((int)(y * 100));
       m_usb_tx_int((int)(theta * 100));
+	  m_usb_tx_int((int) blobs[0]);
+	  m_usb_tx_int((int) blobs[1]);
+	  m_usb_tx_int((int) blobs[3]);
+	  m_usb_tx_int((int) blobs[4]);
+	  m_usb_tx_int((int) blobs[6]);
+	  m_usb_tx_int((int) blobs[7]);
+	  m_usb_tx_int((int) blobs[9]);
+	  m_usb_tx_int((int) blobs[10]);
+
 
 
    		m_wait(100);

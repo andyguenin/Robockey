@@ -1,3 +1,8 @@
-#include "commonrobockey.h"
+#ifdef GOALIE
+
 
 void goalie();
+
+
+
+#endif

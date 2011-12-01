@@ -11,14 +11,14 @@
 #ifdef SNIPER
 #include "sniper.h"
 #define ADDRESS 0x24
-#elif GRINDER
+#endif
+#ifdef GRINDER
 #include "grinder.h"
 #define ADDRESS 0x25
-#elif GOALIE
+#endif
+#ifdef GOALIE
 #include "goalie.h"
 #define ADDRESS 0x26
-#else
-#define ADDRESS 0x24
 #endif
 
 #define PACKET_SIZE 12

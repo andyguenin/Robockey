@@ -4,7 +4,9 @@ int channel, address, packet_length;
 
 void init_communication(int c, int a, int l)
 {
+	
 	m_bus_init();
+	
 	channel = c;
 	address = a;
 	packet_length = l;

@@ -1,3 +1,5 @@
+#ifdef GRINDER
+
 #include "common_robockey.h"
 
 
@@ -73,7 +75,7 @@ void grinder(void)
 	//wait for command
 	while(!wireless_buffer_full()){m_green(ON);}
 	char in[12];
-	get_wireless_buffer(in0);
+	get_wireless_buffer(in);
 	value = (int)in[0];
 	m_green(OFF);
 	
@@ -178,3 +180,5 @@ void grinder(void)
 
 	}	
 }
+
+#endif
