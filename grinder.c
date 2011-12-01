@@ -72,7 +72,9 @@ void grinder(void)
 
 	//wait for command
 	while(!wireless_buffer_full()){m_green(ON);}
-	value = (int)get_wireless_buffer();
+	char in[12];
+	get_wireless_buffer(in0);
+	value = (int)in[0];
 	m_green(OFF);
 	
 	while(1)
