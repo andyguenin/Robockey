@@ -5,8 +5,8 @@ void goalie{
   int puck_status = 0;
 
   // set voltage reference to 5V
-	clear(ADMUX, REFS1);
-	set(ADMUX, REFS0);
+  clear(ADMUX, REFS1);
+  set(ADMUX, REFS0);
 
   m_disableJTAG();//allowing gpio of F pins
 
@@ -42,18 +42,18 @@ void goalie{
   int adc_values[4];//declaring adc array
   
   m_usb_init();//initializing usb communication
-	init_all();//initializing all the rest
-	wait(2);
-	m_red(ON);
-	m_green(ON);
-	wait(2);
+  init_all();//initializing all the rest
+  wait(2);
+  m_red(ON);
+  m_green(ON);
+  wait(2);
   m_green(OFF);
 	
-	m_red(OFF);
-	m_green(OFF);
-	wait(2);
+  m_red(OFF);
+  m_green(OFF);
+  wait(2);
 
-   while(1){
+  while(1){
     //F4 for acd conversion
     clear(ADCSRA,ADEN);
     clear(ADCSRB,MUX5);//setting mux to F4
@@ -134,28 +134,28 @@ void goalie{
     
     switch(puck_status){
       case 1:
-			set_left(90);
-			set_right(50);
-			m_red(ON);
-			m_green(ON);
-			break;
+        set_left(90);
+        set_right(50);
+        m_red(ON);
+        m_green(ON);
+        break;
 
       case 2:
-      set_left(-90);
-      set_right(-50);
-      m_red(ON);
-      m_green(OFF);
-      break;
+        set_left(-90);
+        set_right(-50);
+        m_red(ON);
+        m_green(OFF);
+        break;
 
       case 0:
-      set_left(0);
-      set_right(0);
-      m_red(OFF);
-      m_green(ON);
-      break;
+        set_left(0);
+        set_right(0);
+        m_red(OFF);
+        m_green(ON);
+        break;
     }
     if(m_usb_isconnected()){
-       //print out adc values to screen
+      //print out adc values to screen
       m_red(TOGGLE);
       m_usb_tx_string("Phototrans 1 = ");
       m_usb_tx_int((int) adc_values[0]);
@@ -175,7 +175,7 @@ void goalie{
       m_wait(1000);
     }
       
-   }
+  }
 		
 	
 }
