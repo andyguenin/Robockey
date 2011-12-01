@@ -8,6 +8,7 @@ unsigned int blobs[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
 double x;
 double y;
 double theta;
+double drive_net;
 
 
 void grinder(void)
@@ -43,6 +44,8 @@ void grinder(void)
 	wait(2);
 	m_wii_read(blobs);
 	set_position(1024/2,768/2);
+	get_position(blobs, &x, &y, &theta);
+	drive_net = theta;
 	m_red(OFF);
 
 //ADDITIONAL STUFF
@@ -128,10 +131,17 @@ void grinder(void)
 				send_message_to_bot((char*)2, 0x24);
 				m_wii_read(blobs);
 				get_position(blobs, &x, &y, &theta);
-				while(x > 537 || x < 587){set_right(20); set_left(-20);}
+				while(x > 537 || x < 487){set_right(20); set_left(0);}
 				while(y > 409 || y <359){set_right(20); set_left(20);}
-				set_left(0);
-				set_right(0);
+				while(theta > 6.28 || theta < 0)
+				{
+					if(theta > 6.28){theta = theta - 3.14;}
+					if(theta < 0){theta = theta + 3.14;}
+				}
+				while(theta > drive_net + .2 || theta < drive_net - .2){set_right(0); set_left(20);}
+				//aligned with net
+				set_left(20);
+				set_right(20);
 			}
 			set(ADCSRA,ADIF);
 			break;
@@ -139,11 +149,17 @@ void grinder(void)
 			case 0xA2: //goal a
 			set_left(0);
 			set_right(0);
+			m_red(ON);
+			m_wait(500);
+			m_red(OFF);
 			break;
 			
 			case 0xA3: //goal b
 			set_left(0);
 			set_right(0);
+			m_green(ON);
+			m_wait(500);
+			m_green(OFF);
 			break;
 			
 			case 0xA4: //pause
@@ -174,7 +190,7 @@ void grinder(void)
 		
 		if(wireless_buffer_full())
 		{
-			value = (int)get_wireless_buffer();
+			get_wireless_buffer(in);
 
 		}
 
