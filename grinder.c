@@ -1,16 +1,19 @@
 #include "common_robockey.h"
 
-volatile char = value;
 
-void grinder()
+int value = 0;
+unsigned int blobs[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
+double x;
+double y;
+double theta;
+
+
+void grinder(void)
 {
-
-  m_bus_init();
-	m_rf_init();
 	
 	init_all();
 
-	// set voltage reference to 5V
+	//set voltage reference to 5V
 	clear(ADMUX, REFS1);
 	set(ADMUX, REFS0);
 
@@ -22,39 +25,68 @@ void grinder()
 	set(ADCSRA,ADPS0);
 
 	//set pin to turn off digital circuitry
-	set(DDRO,ADC7D);
+	set(DIDR0,ADC7D);
 	
-	//set trigger to free running mode
-	set(ADCSRA,ADATE);
-	
-	//set channel selection
-	set(ADMUX,MUX0);
+	//set channel selection to D7 for puck location
+	clear(ADMUX,MUX0);
 	set(ADMUX,MUX1);
-	set(ADMUX,MUX2);
-	clear(ADCSRB,MUX5);
+	clear(ADMUX,MUX2);
+	set(ADCSRB,MUX5);
 	
-	int ADC = 0; 	
-	int puck = 0;
+	//set B0 for puck possession input
+	clear(DDRB,0);
 
+	//initialize position at center ice
 	m_red(ON);
 	wait(2);
-	set_position();
+	m_wii_read(blobs);
+	set_position(1024/2,768/2);
 	m_red(OFF);
 
-	while(!wireless_buffer_full())
+//ADDITIONAL STUFF
+/*
+	wait(2);
+	m_green(ON);
+
+	while(1)
 	{
-		m_green(ON);
+		set(ADCSRA,ADEN);
+		set(ADCSRA,ADSC);
+		while(!check(ADCSRA,ADIF));
+			if(ADC < 990){m_green(ON); set_left(-15); set_right(15);}
+			if(ADC >= 990){m_green(OFF); set_left(15); set_right(15);}
+			if(check(PINB,0))
+			{
+				send_message_to_bot((char*)2, 0x24);
+				m_wii_read(blobs);
+				get_position(blobs, &x, &y, &theta);
+				while(x > 537 || x < 587){set_right(10); set_left(-10);}
+				while(y > 409 || y <359){set_right(10); set_left(10);}
+				set_left(0);
+				set_right(0);
+			}
+			set(ADCSRA,ADIF);
 	}
-	
+*/
+//END ADDITIONAL STUFF
+
+	//wait for command
+	while(!wireless_buffer_full()){m_green(ON);}
+	value = (int)get_wireless_buffer();
 	m_green(OFF);
 	
 	while(1)
-	{
+	{	
+
+//		m_wii_read(blobs);
+//		get_position(blobs, &x, &y, &theta);
+		
 		switch(value)
 		{
 			case 1: //sniper has puck
-			go_to(x,y,t,s); //screen goalie
-			m_rf_send(0x26,3,1);
+			//screen goalie
+			//signal goalie screen complete
+			send_message_to_bot((char*)3,0x24);
 			break;
 			
 			case 2: //grinder has puck
@@ -64,7 +96,7 @@ void grinder()
 			break;
 			
 			case 4: //sniper screening goalie
-			go_to(x,y,t,s) //push puck towards goal
+			//push puck towards goal
 			break;
 			
 			case 5: //sniper lost puck
@@ -74,53 +106,58 @@ void grinder()
 			case 6: //wait for screen
 			while(!wireless_buffer_full());
 						
-			case 0xA0:
+			case 0xA0: //command test
 			m_red(ON);
 			m_wait(500);
 			m_red(OFF);
 			break;
 			
-			case 0xA1:
+			case 0xA1: //play
+			m_red(ON);
 			set(ADCSRA,ADEN);
 			set(ADCSRA,ADSC);
 			while(!check(ADCSRA,ADIF));
-			puck = ADC;
-			if(puck < 900){set_left(1); set_right(-1);}
-			else{set_left(50); set_right(50);}
+			if(ADC < 990){m_green(ON); set_left(-20); set_right(20);}
+			if(ADC >= 990){m_green(OFF); set_left(60); set_right(60);}
 			if(check(PINB,0))
 			{
-				m_rf_send(0x26,2,1);
-				go_to(x,y,t,s); //wait for screen
-				value = 6;
+				send_message_to_bot((char*)2, 0x24);
+				m_wii_read(blobs);
+				get_position(blobs, &x, &y, &theta);
+				while(x > 537 || x < 587){set_right(20); set_left(-20);}
+				while(y > 409 || y <359){set_right(20); set_left(20);}
+				set_left(0);
+				set_right(0);
 			}
+			set(ADCSRA,ADIF);
 			break;
 			
-			case 0xA2:
+			case 0xA2: //goal a
 			set_left(0);
 			set_right(0);
 			break;
 			
-			case 0xA3:
+			case 0xA3: //goal b
 			set_left(0);
 			set_right(0);
 			break;
 			
-			case 0xA4:
+			case 0xA4: //pause
 			set_left(0);
 			set_right(0);
 			break;
 			
-			case 0xA5:
-			set_left(-1);
-			set_right(-1);
+			case 0xA5: //detangle
+			set_left(-15);
+			set_right(-15);
 			break;
 			
-			case 0xA6:
+			case 0xA6: //halftime
 			set_left(0);
 			set_right(0);
 			break;
 						
-			case 0xA7:
+			case 0xA7: //gameover
 			set_left(0);
 			set_right(0);
 			break;
@@ -128,13 +165,14 @@ void grinder()
 			default:
 			value = 0xA1;
 			break;
-			
-	}
+		
+		}
+		
+		if(wireless_buffer_full())
+		{
+			value = (int)get_wireless_buffer();
 
-}
+		}
 
-ISR(INT2_vect)
-{
-	wireless_buffer_full(void);
-	value = char* get_wireless_buffer(void);
+	}	
 }
