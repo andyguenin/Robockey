@@ -9,6 +9,11 @@
 
 int main(void)
 {
+
+	#ifdef POS_DEMO
+	position_demo();
+	#endif
+	
 	#ifdef SNIPER
 	sniper();
 	#endif
