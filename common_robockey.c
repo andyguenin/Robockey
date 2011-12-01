@@ -1,10 +1,6 @@
 #include "common_robockey.h"
 
 
-bool wireless_buffer_f;
-char* wireless_buffer;
-void wireless_callback(char*);
-
 void init_all()
 {
 	m_clockdivide(0);
@@ -104,20 +100,4 @@ void set_right(int n)
 	OCR1B = pwm * 655;
 }
 
-void wireless_callback(char* c)
-{
-	wireless_buffer = c;
-	wireless_buffer_f = true;
-}
 
-bool wireless_buffer_full()
-{
-	return wireless_buffer_f;
-}
-
-void get_wireless_buffer(char* buffer)
-{
-	wireless_buffer_f = false;
-	buffer = wireless_buffer;
-	
-}

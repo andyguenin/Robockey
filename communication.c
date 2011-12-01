@@ -15,12 +15,13 @@ void init_communication(int c, int a, int l)
 }
 
 
+
+
 ISR(INT2_vect)
-{
-	char buffer;
-	m_rf_read(&buffer, packet_length);
-	wireless_callback(&buffer);
-}
+{	
+	m_rf_read(wireless_buffer, packet_length);
+	wireless_buffer_f = true;}
+
 
 void send_message(char* c)
 {
@@ -36,5 +37,5 @@ void send_message(char* c)
 
 void send_message_to_bot(char* c, char address)
 {
-	m_rf_send(address, c, address);
+	m_rf_send(address, c, packet_length);
 }

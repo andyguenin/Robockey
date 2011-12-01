@@ -35,6 +35,10 @@ void set_left(int);
 void set_right(int);
 
 
-void wireless_callback(char* c);
+
+
 bool wireless_buffer_full(void);
 void get_wireless_buffer(char*);
+
+//char arr[PACKET_SIZE];
+char wireless_buffer[PACKET_SIZE];
