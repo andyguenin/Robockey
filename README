@@ -2,13 +2,14 @@ This code is for the MEAM510 robockey project using an ATmega32u4 processor
 
 In your main c file, you only need to include the "common_robockey.h" header file
 
-TESTING CHANGES FROM KYLE
+You must create a file called bot.h and in it, define your robots name in capital letters (grinder, sniper, goalie),
+and set the define vaule according to the following table:
 
-
-You must define and set the following characters:
-	ADDRESS
-	CHANNEL
-	PACKET_SIZE
+GRINDER -> 0x25
+SNIPER ->  0x24
+GOALIE  -> 0x26
+	
+	
 	
 In your main method, before doing anything else, call the init_all() fuction
 
@@ -17,11 +18,12 @@ You will be given access to the following functions and variables:
 	**
 	void init_all()
 	
-	Initializes everything.  Your project must have the m_bus and m_rf in it (I'm going to add the m_wii
-	for position sensing soon
-	
+	Initializes everything.  Your project must have the m_bus and m_rf in it
+		
 	
 	**
+	You should use the higher-level go_to(x, y, t, s) function instead of the following if possible
+	
 	void set_left(int)
 	void set_right(int)
 	
@@ -40,7 +42,6 @@ You will be given access to the following functions and variables:
 	Pauses execution for int seconds (does not affect the movement of the motors. Usefull for debugging)
 	
 	
-	
 	**
 	bool wireless_buffer_full()
 	
@@ -53,4 +54,20 @@ You will be given access to the following functions and variables:
 	char* get_wireless_buffer(void)
 	
 	Returns a pointer to a character (or the first element of a character array) of length PACKET_SIZE
+	
+	**
+	
+	void set_position(int x, int y)
+	
+	sets the 0,0 position.  required for position determination
+	
+	**
+	
+	void get_position(unsigned int*, double*)
+	
+	sets the double* to a three element array containing {x, y, theta} given the direct output of the wii sensor into unsigned int*
+	
+	**
+	
+	
 	

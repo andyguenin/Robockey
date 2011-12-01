@@ -18,7 +18,7 @@ void init_all()
 	  m_red(ON);
 	
 	
-	//init_communication(CHANNEL, ADDRESS, PACKET_SIZE);
+	init_communication(CHANNEL, ADDRESS, PACKET_SIZE);
 
 	
 	// set timer clock source

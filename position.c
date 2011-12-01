@@ -2,35 +2,37 @@
 
 #define x1 0
 #define y1 14.5
-#define x2 11.655
-#define y2 8.741
+#define x4 11.655
+#define y4 8.741
 #define x3 0
 #define y3 -14.5
-#define x4 -10.563
-#define y4 2.483
+#define x2 -10.563
+#define y2 2.483
 #define pi 3.1415926535
 #define d(a, b, c, d) ( sqrt((a - c)*(a - c) + (b-d)*(b-d)))
+#define sq(a) ( (a) * (a) )
 double min3(double a, double b, double c);
 double min4(double a, double b, double c, double d);
 
 
-void get_position(unsigned int* inp, double* location)
+void get_position(unsigned int* inp, double* xo, double* yo, double* to)
 {
-	int xi1 = (int)(inp[0]);
-    int yi1 = (int)(inp[1]);
-    int xi2 = (int)(inp[2]);
-    int yi2 = (int)(inp[3]);
-    int xi3 = (int)(inp[4]);
-    int yi3 = (int)(inp[5]);
-    int xi4 = (int)(inp[6]);
-    int yi4 = (int)(inp[7]);
+	int xi1 = inp[0];
+    int yi1 = inp[1];
+    int xi2 = inp[3];
+    int yi2 = inp[4];
+    int xi3 = inp[6];
+    int yi3 = inp[7];
+    int xi4 = inp[9];
+    int yi4 = inp[10];
+	
 
 	double x0 = 0;
 	double y0 = 0;
 	double theta_rot = 0;
 
 	bool first = 1;
-	double min_err = 0;
+	double min_err = 0.0;
 	int order[] = {0,0,0,0};
 
 	// only three leds are visible
@@ -43,7 +45,7 @@ void get_position(unsigned int* inp, double* location)
 		double di2 = d(xi2, yi2, xiavg, yiavg);
 		double di3 = d(xi3, yi3, xiavg, yiavg);
 		
-		int diord[] = {0,0,0};
+		double diord[] = {0,0,0};
 		double mini = min3(di1, di2, di3);
 		diord[0] = di1/mini;
 		diord[1] = di2/mini;
@@ -61,7 +63,7 @@ void get_position(unsigned int* inp, double* location)
 					{
 						if(k!= i && k!= j)
 						{
-							int l = 10 - (i + j + k);
+							int l = 10  - (i + j + k);
 							double xa[] = {0,0,0,0};
 							double ya[] = {0,0,0,0};
 							double xavg = 0;
@@ -84,20 +86,20 @@ void get_position(unsigned int* inp, double* location)
 							double d3 = d(x3, y3, xavg, yavg);
 							double d4 = d(x4, y4, xavg, yavg);
 
-							int dord[] = {d1, d2, d3, d4};
+							double dord[] = {d1, d2, d3, d4};
 							dord[l] = dord[i];
-							int mind = min4(d1, d2, d3, d4);
+							double mind = min4(d1, d2, d3, d4);
 							for(int ii = 0; ii < 4; ii++)
 								dord[ii] /= mind;
 
-							double err = (diord[0]-dord[i]) * (diord[0]-dord[i]) + (diord[1]-dord[j]) * (diord[1]-dord[j]) + (diord[2]-dord[k]) * (diord[2]-dord[k]);
+							double err = sq(diord[0] - dord[i]) + sq(diord[1] - dord[j]) + sq(diord[2] - dord[k]);
 							if(first || err < min_err)
 							{
 								min_err = err;
 								first = false;
-								order[0] = i;
-								order[1] = j;
-								order[2] = k;
+								order[0] = i + 1;
+								order[1] = j + 1;
+								order[2] = k + 1;
 								order[3] = 0;
 
 								double thetaf = 0;
@@ -128,8 +130,8 @@ void get_position(unsigned int* inp, double* location)
 								}
 
 								double theta_rot_off = atan2(-yavg, -xavg);
-								int xp = inp[pos * 2];
-								int yp = inp[pos * 2 + 1];
+								int xp = inp[pos * 3];
+								int yp = inp[pos * 3 + 1];
 								double theta2 = atan2((double)(yp) - yiavg, (double)(xp) - xiavg);
 								theta_rot = theta2 + thetaf - theta_rot_off;
 								x0 = xiavg + cos(theta_rot_off + theta_rot) * dCenter;
@@ -151,22 +153,32 @@ void get_position(unsigned int* inp, double* location)
 		double d2 = d(x2, y2, xavg, yavg);
 		double d3 = d(x3, y3, xavg, yavg);
 		double d4 = d(x4, y4, xavg, yavg);
-		
-		double dord[] = {d1, d2, d3, d4};
-		double mind = min4(d1, d2, d3, d4);
-		for(int ii = 0; ii < 4; ii++)
-			dord[ii] /= mind;
 
-		double xiavg = (xi1 + xi2 + xi3 + yi4)/4.0;
+		
+		
+		double dord[] = {0, 0, 0, 0};
+
+		double mind = min4(d1, d2, d3, d4);
+
+		dord[0] = d1 / mind;
+		dord[1] = d2 / mind;
+		dord[2]	= d3 / mind;
+		dord[3] = d4 / mind;
+
+		
+
+		double xiavg = (xi1 + xi2 + xi3 + xi4)/4.0;
+		
 		double yiavg = (yi1 + yi2 + yi3 + yi4)/4.0;
 		
 		double di1 = d(xi1, yi1, xiavg, yiavg);
 		double di2 = d(xi2, yi2, xiavg, yiavg);
 		double di3 = d(xi3, yi3, xiavg, yiavg);
 		double di4 = d(xi4, yi4, xiavg, yiavg);
-		
-		int diord[] = {0,0,0,0};
+		double diord[] = {0,0,0,0};
 		double mini = min4(di1, di2, di3, di4);
+
+
 		diord[0] = di1/mini;
 		diord[1] = di2/mini;
 		diord[2] = di3/mini;
@@ -183,15 +195,15 @@ void get_position(unsigned int* inp, double* location)
 						if(k!= i && k!= j)
 						{
 							int l = 10 - (i + j + k);
-							double err = (diord[0]-dord[i]) * (diord[0]-dord[i]) + (diord[1]-dord[j]) * (diord[1]-dord[j]) + (diord[2]-dord[k]) * (diord[2]-dord[k]) + (diord[3] - diord[l]) * (diord[3] - diord[l]) ;
+							double err = sq(diord[0] - dord[i]) + sq(diord[1] - dord[j]) + sq(diord[2] - dord[k]) + sq(diord[3] - dord[l]);
 							if(first || err < min_err)
 							{
 								min_err = err;
 								first = false;
-								order[0] = i;
-								order[1] = j;
-								order[2] = k;
-								order[3] = 0;
+								order[0] = i + 1;
+								order[1] = j + 1;
+								order[2] = k + 1;
+								order[3] = l + 1;
 
 
 								int pos = 0;
@@ -203,18 +215,20 @@ void get_position(unsigned int* inp, double* location)
 										pos = ii;
 									}
 								}
-
-								double thetaf = atan2(-yavg, -xavg) - atan2(y1 - yavg, x1 - xavg);
+	
+								double theta_rot_off = -1.667782601220809;
+								double thetaf = theta_rot_off - atan2(y1 - yavg, x1 - xavg);
 								double dCenter = di1 / d1 * d(xavg, yavg, 0, 0);
+																
 								
-
-								double theta_rot_off = atan2(-yavg, -xavg);
-								int xp = inp[pos * 2];
-								int yp = inp[pos * 2 + 1];
+								int xp = inp[pos * 3];
+								int yp = inp[pos * 3 + 1];
 								double theta2 = atan2((double)(yp) - yiavg, (double)(xp) - xiavg);
+
 								theta_rot = theta2 + thetaf - theta_rot_off;
 								x0 = xiavg + cos(theta_rot_off + theta_rot) * dCenter;
 								y0 = yiavg + sin(theta_rot_off + theta_rot) * dCenter;
+							
 							}																					
 						}
 					}
@@ -222,7 +236,7 @@ void get_position(unsigned int* inp, double* location)
 			}
 		}
 	}
-	
+
 	int pos = 0;
 	int sum = 0;
 	double scale = 0;
@@ -235,7 +249,7 @@ void get_position(unsigned int* inp, double* location)
 			if(order[ii] == 3)
 				pos = ii;
 		}
-		scale = d(x3,y3,0,0) / d(x0,y0, inp[pos * 2 ], inp[pos * 2 + 1]);
+		scale = d(x3,y3,0,0) / d(x0,y0, inp[pos * 3 ], inp[pos * 3 + 1]);
 	}
 	else
 	{
@@ -244,18 +258,20 @@ void get_position(unsigned int* inp, double* location)
 			if(order[ii] == 1)
 				pos = ii;
 		}
-		scale = d(x1,y1,0,0) / d(x0,y0, inp[pos * 2 ], inp[pos * 2 + 1]);
+		scale = d(x1,y1,0,0) / d(x0,y0, inp[pos * 3 ], inp[pos * 3 + 1]);
 	}
 	
 	double theta = theta_rot;
 	double dist = d(x_init, y_init, x0,y0);
     double theta1 = pi - atan2(- y0 + y_init, - x0 + x_init);
+
     double x = dist * scale * cos(theta1 + theta_rot);
     double y = dist * scale * sin(theta1 + theta_rot);
-
-	location[0] = x;
-	location[1] = y;
-	location[2] = theta;
+	
+	*xo = x;
+	*yo = y;
+	*to = theta;
+	
 
 }
 
