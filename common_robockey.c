@@ -10,17 +10,22 @@ void init_all()
 	m_clockdivide(0);
 	m_disableJTAG();
 
-	//initializing mWii
-	char wii_status = m_wii_open();
-	if(wii_status){
-	  m_green(ON);
-	}else
-	  m_red(ON);
-	
 	
 	init_communication(CHANNEL, ADDRESS, PACKET_SIZE);
 
+	//initializing mWii
+	char wii_status = m_wii_open();
+	if(wii_status){
+	//  m_green(ON);
+	}else
+	  m_red(ON);
 	
+	m_usb_init();
+	while(!m_usb_isconnected());
+	
+
+	m_green(ON);
+
 	// set timer clock source
 	clear(TCCR1B, CS12);
 	clear(TCCR1B, CS11);
@@ -58,6 +63,7 @@ void init_all()
 	clear(PORTC, 6);
 	clear(PORTC, 7);
 
+	m_green(OFF);
 	
 }
 
@@ -116,9 +122,9 @@ bool wireless_buffer_full()
 	return wireless_buffer_f;
 }
 
-char* get_wireless_buffer()
+void get_wireless_buffer(char* buffer)
 {
 	wireless_buffer_f = false;
-	return wireless_buffer;
+	buffer = wireless_buffer;
 	
 }
