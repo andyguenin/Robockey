@@ -8,6 +8,8 @@ volatile bool flag = false;
 
 int main(void)
 {
+
+	
 	#ifdef POS_DEMO
 	position_demo();
 	#endif
@@ -49,8 +51,8 @@ int main(void)
 	#endif
 
 	#ifdef GOALIE
-	//init_all();
-	/*char a[12] = {'a','b','c','d','e','f','a','b','c','d','e','f'};
+	/*init_all();
+	char a[12] = {'a','b','c','d','e','f','a','b','c','d','e','f'};
 	char b[12] = {'g','h','i','j','k','l','g','h','i','j','k','l'};
 	while(1)
 	{

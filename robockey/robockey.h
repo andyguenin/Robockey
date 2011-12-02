@@ -1,0 +1,3 @@
+char ADDRESS;
+char CHANNEL;
+char PACKET_SIZE;
