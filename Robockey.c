@@ -1,45 +1,49 @@
 #include "common_robockey.h"
 #include "bot.h"
 
+
+
+volatile char* buffer;
+volatile bool flag = false;
+
 int main(void)
 {
 
-
+	
 	#ifdef POS_DEMO
 	position_demo();
 	#endif
 	
 	#ifdef SNIPER
-	init_all();
-
+/*	init_all();
 	m_usb_init();
 	while(!m_usb_isconnected());
-
-
 	m_green(ON);
-	char input[12];
-
 
 	while(1)
 	{
-		while(!wireless_buffer_full());
-		
-		get_wireless_buffer(input);
-		m_red(TOGGLE);
-		m_usb_tx_char(input[0]);
-		m_usb_tx_char(input[1]);
-		m_usb_tx_char(input[2]);
-		m_usb_tx_char(input[3]);
-		m_usb_tx_char(input[4]);
-		m_usb_tx_char(input[5]);
-		m_usb_tx_char(input[6]);
-		m_usb_tx_char(input[7]);
-		m_usb_tx_char(input[8]);
-		m_usb_tx_char(input[9]);
-		m_usb_tx_char(input[10]);
-		m_usb_tx_char(input[11]);
-	}
+		while(!wireless_buffer_f);
+		wireless_buffer_f = false;
+		m_usb_tx_char(wireless_buffer[0]);
+		m_usb_tx_char(wireless_buffer[1]);
+		m_usb_tx_char(wireless_buffer[2]);
+		m_usb_tx_char(wireless_buffer[3]);
+		m_usb_tx_char(wireless_buffer[4]);
+		m_usb_tx_char(wireless_buffer[5]);
+		m_usb_tx_char(wireless_buffer[6]);
+		m_usb_tx_char(wireless_buffer[7]);
+		m_usb_tx_char(wireless_buffer[8]);
+		m_usb_tx_char(wireless_buffer[9]);
+		m_usb_tx_char(wireless_buffer[10]);
+		m_usb_tx_char(wireless_buffer[11]);
+		if(wireless_buffer[0] == 0xA0)
+			m_red(ON);
 
+
+		
+	}*/
+
+	sniper();
 	#endif
 
 	#ifdef GRINDER
@@ -47,23 +51,22 @@ int main(void)
 	#endif
 
 	#ifdef GOALIE
-	//goalie();
-
-	init_all();
-	char out[12];
-	char a = 0;
+	/*init_all();
+	char a[12] = {'a','b','c','d','e','f','a','b','c','d','e','f'};
+	char b[12] = {'g','h','i','j','k','l','g','h','i','j','k','l'};
 	while(1)
 	{
-		for(int i = 0; i < 12; i++)
-			out[i] = a;
-		a++; 
-		m_rf_send(0x24, out, 12);
+		send_message_to_bot(a, 0x24);
+		m_wait(2000);
 		m_red(TOGGLE);
-		//send_message_to_bot(out, 0x24);
-		wait(2);
+		send_message_to_bot(b, 0x24);
+		m_wait(2000);
+		m_red(TOGGLE);
 	}
-
+	*/
+	goalie();	
 
 	#endif
 
-} 
+}
+

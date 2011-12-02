@@ -91,7 +91,7 @@ void position_demo()
 
 
 
-   		m_wait(100);
+   		m_wait(1000);
 		  m_red(TOGGLE);
 	  }
     }

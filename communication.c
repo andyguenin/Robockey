@@ -20,7 +20,8 @@ void init_communication(int c, int a, int l)
 ISR(INT2_vect)
 {	
 	m_rf_read(wireless_buffer, packet_length);
-	wireless_buffer_f = true;}
+	wireless_buffer_f = true;
+}
 
 
 void send_message(char* c)

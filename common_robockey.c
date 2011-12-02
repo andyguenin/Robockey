@@ -13,7 +13,6 @@ void init_all()
 	//initializing mWii
 	char wii_status = m_wii_open();
 	
-
 	
 
 	// set timer clock source
@@ -52,7 +51,6 @@ void init_all()
 	
 	clear(PORTC, 6);
 	clear(PORTC, 7);
-	
 	
 }
 

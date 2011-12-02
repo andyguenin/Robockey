@@ -41,4 +41,4 @@ bool wireless_buffer_full(void);
 void get_wireless_buffer(char*);
 
 //char arr[PACKET_SIZE];
-char wireless_buffer[PACKET_SIZE];
+volatile char wireless_buffer[PACKET_SIZE];
