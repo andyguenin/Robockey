@@ -6,6 +6,16 @@ int puck_status = 0;
 char input[12];
 char get_transition(void);
 
+//initializing position variables
+unsigned int blobs[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
+double x;
+double x_center;
+double y;
+double y_center;
+double theta;
+double theta_zero;
+
+//Game command states
 void state_wait_for_start(void);
 void state_comm_test(void);
 void state_play(void);
@@ -15,6 +25,22 @@ int adc_values[12];
 
 void goalie(){
 
+  //displaying two flashes to know robot is ready and waiting for start
+  m_red(ON);
+  m_green(ON);
+  wait(1);
+  m_green(OFF);
+  m_red(OFF);
+	wait(1);
+  m_red(ON);
+  m_green(ON);
+  wait(1);
+  m_red(OFF);
+	wait(1);
+
+  //initializing center ice
+  set_position(1024/2,768/2);
+  get_position(blobs, &x_center, &y_center, &theta_zero);
 
   // set voltage reference to 5V
   clear(ADMUX, REFS1);
@@ -55,23 +81,32 @@ void goalie(){
   
   init_all();//initializing all the rest
   
-  wait(2);
+  /*//displaying two flashes to know robot is ready and waiting for start
   m_red(ON);
   m_green(ON);
-  wait(2);
+  wait(1);
   m_green(OFF);
-	
   m_red(OFF);
-  m_green(OFF);
-  wait(2);
-	
+	wait(1);
+  m_red(ON);
+  m_green(ON);
+  wait(1);
+  m_red(OFF);
+	wait(1);
+  */
+  
 	state_wait_for_start();
 }
 
 void state_wait_for_start()
 { 		
-	while(!wireless_buffer_full());
-	char transition = get_transition();
+	while(!wireless_buffer_f);
+  wireless_buffer_f = false;
+  m_green(OFF);
+  wait(1);
+  m_green(ON);
+  m_red(ON);
+	char transition = wireless_buffer[0];
 	switch(transition)
 	{
 		case 0xA0: //comm test
@@ -89,6 +124,9 @@ void state_wait_for_start()
 
 void state_comm_test()
 {
+  m_red(OFF);
+  m_green(OFF);
+  wait(1);
 	m_red(ON);
 	m_green(ON);
 	for(int i = 0; i < 5; i++)
@@ -111,8 +149,8 @@ void state_detangle()
 	m_red(OFF);
 	set_left(0);
 	set_right(0);
-	while(!wireless_buffer_full());
-	char transition = get_transition();
+	//while(!wireless_buffer_full());
+	char transition = wireless_buffer[0];
 	while(1)
 	{
 		switch(transition)
@@ -226,9 +264,12 @@ void state_play()
 	        m_green(ON);
 	        break;
 	    }
+
+      get_position(blobs, &x, &y, &theta);
+
 	    if(m_usb_isconnected()){
 	      //print out adc values to screen
-	      m_red(TOGGLE);
+	      /*m_red(TOGGLE);
 	      m_usb_tx_string("Phototrans 1 = ");
 	      m_usb_tx_int((int) adc_values[0]);
 	      m_usb_tx_string("\n");
@@ -244,13 +285,22 @@ void state_play()
 	      m_usb_tx_string("puck status = ");
 		  	m_usb_tx_int((int)puck_status);
 	      m_usb_tx_string("\n");
-	      m_wait(1000);
+	      m_wait(1000);*/
+        m_usb_tx_string("X = ");
+	      m_usb_tx_int((int) x-x_center);
+	      m_usb_tx_string("\n");
+        m_usb_tx_string("Y = ");
+	      m_usb_tx_int((int) y-y_center);
+	      m_usb_tx_string("\n");
+        m_usb_tx_string("Theta = ");
+	      m_usb_tx_int((int) theta-theta_zero);
+	      m_usb_tx_string("\n");
 	    }
       
     
-	if(wireless_buffer_full());
-	{
-		char transition = get_transition();
+	//if(wireless_buffer_full());
+	//{
+		char transition = wireless_buffer[0];
 		switch(transition)
 		{
 			case 0xA4:
@@ -262,23 +312,18 @@ void state_play()
 			default:
 				break;
 		}
-	}
+	//}
 }
 
-char get_transition(void)
-{
-	get_wireless_buffer(input);
-	return input[0];
-}
 
 void state_pause()
 {
 	while(1)
 	{
-		while(!wireless_buffer_full())
-		{
-			get_wireless_buffer(input);
-			char trans = input[0];
+		//while(!wireless_buffer_full())
+		//{
+			//get_wireless_buffer(input);
+			char trans = wireless_buffer[0];
 			switch(trans)
 			{
 				case 0xA1:
@@ -287,7 +332,7 @@ void state_pause()
 				default:
 					break;
 			}
-		}				
+		//}				
 	}
 }
 			
