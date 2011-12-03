@@ -63,15 +63,15 @@ void grinder(void)
 			set(ADCSRA,ADEN);
 			set(ADCSRA,ADSC);
 			while(!check(ADCSRA,ADIF));
-			if(ADC < 990){m_green(ON); set_left(-20); set_right(20);}
-			if(ADC >= 990){m_green(OFF); set_left(60); set_right(60);}
+			if(ADC < 990){m_green(ON); set_left(-15); set_right(15);}
+			if(ADC >= 990){m_green(OFF); set_left(30); set_right(30);}
 			if(check(PINB,0))
 			{
 				send_message_to_bot((char*)2, 0x24);
 				m_wii_read(blobs);
 				get_position(blobs, &x, &y, &theta);
 				while(x > 537 || x < 487){set_right(20); set_left(0);}
-				while(y > 409 || y <359){set_right(20); set_left(20);}
+				while(y > 409 || y <359){set_right(15); set_left(15);}
 				while(theta > 6.28 || theta < 0)
 				{
 					if(theta > 6.28){theta = theta - 3.14;}
