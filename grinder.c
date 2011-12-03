@@ -79,11 +79,11 @@ void grinder(void)
 	while(!wireless_buffer_full()){m_green(ON);}
 	char in[12];
 	get_wireless_buffer(in);
-	value = (int)in[0];
 	m_green(OFF);
 	
 	while(1)
 	{	
+                  value = (int)in[0];
 
 //		m_wii_read(blobs);
 //		get_position(blobs, &x, &y, &theta);
@@ -91,7 +91,22 @@ void grinder(void)
 		switch(value)
 		{
 			case 1: //sniper has puck
-			//screen goalie
+			m_wii_read(blobs);
+			get_position(blobs, &x, &y, &theta);
+			while(x < 900){set_right(20); set_left(0);}
+			while(y < 650){set_right(20); set_left(20);}
+			while(theta > 6.28 || theta < 0)
+			{
+				if(theta > 6.28){theta = theta - 3.14;}
+				if(theta < 0){theta = theta + 3.14;}
+			}
+			while(theta > drive_net + .2 || theta < drive_net - .2){set_right(0); set_left(20);}
+			//aligned with net
+			set_left(20);
+			set_right(20);
+
+
+//screen goalie
 			//signal goalie screen complete
 			send_message_to_bot((char*)3,0x24);
 			break;
@@ -149,17 +164,11 @@ void grinder(void)
 			case 0xA2: //goal a
 			set_left(0);
 			set_right(0);
-			m_red(ON);
-			m_wait(500);
-			m_red(OFF);
 			break;
 			
 			case 0xA3: //goal b
 			set_left(0);
 			set_right(0);
-			m_green(ON);
-			m_wait(500);
-			m_green(OFF);
 			break;
 			
 			case 0xA4: //pause
