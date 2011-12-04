@@ -86,7 +86,7 @@ void goalie(){
 
 void state_before_game()
 { 		
-m_red(ON);
+  m_red(ON);
 	while(!wireless_buffer_f);
 	m_red(OFF);
 	wireless_buffer_f = false;
@@ -116,27 +116,23 @@ m_red(ON);
 	}
 }
 
-/*void state_detangle()
+void state_detangle()
 {
 	m_red(ON);
-	set_left(-20);
-	set_right(-20);
-	wait(2);
+	set_left(-90);
+	set_right(-50);
+	m_wait(2000);
 	m_red(OFF);
 	set_left(0);
 	set_right(0);
-	//while(!wireless_buffer_full());
 	char transition = wireless_buffer[0];
-	while(1)
+	switch(transition)
 	{
-		switch(transition)
-		{
-			case 0xA1:
-				state_play();
-				return;
-		}
+		case 0xA1:
+			state_play();
+			return;
 	}
-}*/
+}
 
 void state_play()
 {
@@ -285,8 +281,11 @@ void state_play()
 		case 0xA1:
 			state_play();
 			return;
+    case 0xA5:
+      state_detangle();
+      return;
 		default:
-			state_before_game();
+			state_play();
 			return;
 	}
 }
@@ -296,13 +295,7 @@ void state_pause()
 {
 	set_left(0);
 	set_right(0);
-}
-
-void state_detangle()
-{
-	set_left(-30);
-	set_right(-30);
-	while(!wireless_buffer_f);
+  while(!wireless_buffer_f);
 	wireless_buffer_f = false;
 	char inst = wireless_buffer[0];
 	switch(inst)
@@ -313,10 +306,14 @@ void state_detangle()
 		case 0xA1:
 			state_play();
 			return;
+    case 0xA5:
+			state_detangle();
+			return;
 		default:
-			state_before_game();
+			state_pause();
 			return;
 	}	
 }
+
 			
 #endif
