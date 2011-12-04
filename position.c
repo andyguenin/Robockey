@@ -303,3 +303,18 @@ double min4(double a, double b, double c, double d)
 	return ret;
 }
 
+
+void make_positive(double* theta)
+{
+	int cycles = 0;
+	while(*theta < 0 && cycles <4)
+	{
+		*theta += 2 * pi;
+		cycles++;
+	}
+	while(*theta > 2*pi && cycles < 4)
+	{
+		*theta -= 2 * pi;
+		cycles ++;
+	}
+}
