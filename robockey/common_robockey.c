@@ -6,6 +6,8 @@ void init_all()
 	m_clockdivide(0);
 	m_disableJTAG();
 
+	
+
 	init_communication(CHANNEL, ADDRESS, PACKET_SIZE);
 
 	//initializing mWii

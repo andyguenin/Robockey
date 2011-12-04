@@ -1,0 +1,1 @@
+grinder.o: ../grinder.c

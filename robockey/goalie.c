@@ -24,21 +24,19 @@ void state_detangle(void);
 int adc_values[12];
 
 void goalie(){
-  init_all();//initializing all the rest
 
   //displaying two flashes to know robot is ready and waiting for start
   m_red(ON);
   m_green(ON);
-  m_wait(750);
+  wait(.25);
   m_green(OFF);
   m_red(OFF);
-	m_wait(750);
+	wait(.25);
   m_red(ON);
   m_green(ON);
-  m_wait(750);
+  wait(.25);
   m_red(OFF);
-  m_green(OFF);
-	wait(1);
+	wait(.25);
 
   //initializing center ice
   set_position(1024/2,768/2);
@@ -80,6 +78,8 @@ void goalie(){
 
   int adc = 0;//declaring integer for adc status;
   int adc_values[4];//declaring adc array
+  
+  init_all();//initializing all the rest
     
 	state_before_game();
 }
