@@ -8,7 +8,6 @@
 #define y3 -14.5
 #define x2 -10.563
 #define y2 2.483
-#define pi 3.1415926535
 #define d(a, b, c, d) ( sqrt((a - c)*(a - c) + (b-d)*(b-d)))
 #define sq(a) ( (a) * (a) )
 double min3(double a, double b, double c);
@@ -36,112 +35,14 @@ void get_position(unsigned int* inp, double* xo, double* yo, double* to)
 	int order[] = {0,0,0,0};
 
 	// only three leds are visible
-	if(xi4 == 0 && yi4 == 0)
+	if(xi4 == 1023 && yi4 == 1023)
 	{
-		double xiavg = (xi1 + xi2 + xi3)/3.0;
-		double yiavg = (yi1 + yi2 + yi3)/3.0;
-		
-		double di1 = d(xi1, yi1, xiavg, yiavg);
-		double di2 = d(xi2, yi2, xiavg, yiavg);
-		double di3 = d(xi3, yi3, xiavg, yiavg);
-		
-		double diord[] = {0,0,0};
-		double mini = min3(di1, di2, di3);
-		diord[0] = di1/mini;
-		diord[1] = di2/mini;
-		diord[2] = di3/mini;
-				
-		double xes[] = {x1, x2, x3, x4};
-		double yes[] = {y1, y2, y3, y4};
-		for(int i = 0; i < 4; i++)
-		{
-			for(int j = 0; j < 4; j++)
-			{
-				if(j!= i)
-				{
-					for(int k = 0; k < 4; k++)
-					{
-						if(k!= i && k!= j)
-						{
-							int l = 10  - (i + j + k);
-							double xa[] = {0,0,0,0};
-							double ya[] = {0,0,0,0};
-							double xavg = 0;
-							double yavg = 0;
-							for(int ii = 0; ii < 4; ii++)
-							{
-								if(ii != l)
-								{
-									xa[ii] = xes[ii];
-									xavg += xes[ii];
-									ya[ii] = yes[ii];
-									yavg += yes[ii];
-								}
-							}
-							xavg /= 3;
-							yavg /= 3;	
-							
-							double d1 = d(x1, y1, xavg, yavg);						
-							double d2 = d(x2, y2, xavg, yavg);
-							double d3 = d(x3, y3, xavg, yavg);
-							double d4 = d(x4, y4, xavg, yavg);
-
-							double dord[] = {d1, d2, d3, d4};
-							dord[l] = dord[i];
-							double mind = min4(d1, d2, d3, d4);
-							for(int ii = 0; ii < 4; ii++)
-								dord[ii] /= mind;
-
-							double err = sq(diord[0] - dord[i]) + sq(diord[1] - dord[j]) + sq(diord[2] - dord[k]);
-							if(first || err < min_err)
-							{
-								min_err = err;
-								first = false;
-								order[0] = i + 1;
-								order[1] = j + 1;
-								order[2] = k + 1;
-								order[3] = 0;
-
-								double thetaf = 0;
-								double dCenter = 0;
-
-								int pos = 0;
-								if(l == 1)
-								{
-									for(int ii = 0; ii < 3; ii++)
-									{
-										if(order[ii] == 2)
-											pos = ii;
-									}
-									thetaf = atan2(-yavg, -xavg) - atan2(y2 - yavg, x2 - xavg);
-									dCenter = di2 / d2 * d(xavg, yavg, 0, 0);
-								}
-								else
-								{
-									for(int ii = 0; ii < 3; ii++)
-									{
-										if(order[ii] == 1)
-										{
-											pos = ii;
-										}
-									}
-									thetaf = atan2(-yavg, -xavg) - atan2(y1 - yavg, x1 - xavg);
-									dCenter = di1 / d1 * d(xavg, yavg, 0, 0);
-								}
-
-								double theta_rot_off = atan2(-yavg, -xavg);
-								int xp = inp[pos * 3];
-								int yp = inp[pos * 3 + 1];
-								double theta2 = atan2((double)(yp) - yiavg, (double)(xp) - xiavg);
-								theta_rot = theta2 + thetaf - theta_rot_off;
-								x0 = xiavg + cos(theta_rot_off + theta_rot) * dCenter;
-								y0 = yiavg + sin(theta_rot_off + theta_rot) * dCenter;
-							}																					
-						}
-					}
-				}
-			}
-		}
+		*xo = -1000;
+		*yo = -1000;
+		double xavg = (x1 + x2 + x3) / 4.0;
+		double yavg = (y1 + y2 + y3) / 3.0;
+		*to = atan2(yavg - y_init, xavg - x_init);
+		return;
 	}
 	else
 	{

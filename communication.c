@@ -20,7 +20,7 @@ void init_communication(int c, int a, int l)
 ISR(INT2_vect)
 {	
 	m_rf_read(wireless_buffer, packet_length);
-  m_green(TOGGLE);
+  	m_green(TOGGLE);
 	wireless_buffer_f = true;
 }
 

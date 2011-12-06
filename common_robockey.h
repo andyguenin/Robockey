@@ -7,6 +7,7 @@
 #include "m_usb.h"
 #include "position.h"
 #include "demo.h"
+#include "movement.h"
 #include <math.h>
 #ifdef SNIPER
 #include "sniper.h"
@@ -25,6 +26,7 @@
 #define CHANNEL 1
 
 
+#define pi 3.14159265358979323
 
 
 void init_all();

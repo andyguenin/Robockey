@@ -1,1 +1,1 @@
-void grinder();
+void grinder(void);
