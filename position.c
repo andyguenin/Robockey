@@ -37,9 +37,9 @@ void get_position(unsigned int* inp, double* xo, double* yo, double* to)
 	// only three leds are visible
 	if(xi4 == 1023 && yi4 == 1023)
 	{
-		*xo = -1000;
-		*yo = -1000;
-		double xavg = (x1 + x2 + x3) / 4.0;
+		*xo = -300;
+		*yo = -300;
+		double xavg = (x1 + x2 + x3) / 3.0;
 		double yavg = (y1 + y2 + y3) / 3.0;
 		*to = atan2(yavg - y_init, xavg - x_init);
 		return;
@@ -95,7 +95,7 @@ void get_position(unsigned int* inp, double* xo, double* yo, double* to)
 					{
 						if(k!= i && k!= j)
 						{
-							int l = 10 - (i + j + k);
+							int l = 6 - (i + j + k);
 							double err = sq(diord[0] - dord[i]) + sq(diord[1] - dord[j]) + sq(diord[2] - dord[k]) + sq(diord[3] - dord[l]);
 							if(first || err < min_err)
 							{
@@ -129,7 +129,7 @@ void get_position(unsigned int* inp, double* xo, double* yo, double* to)
 								theta_rot = theta2 + thetaf - theta_rot_off;
 								x0 = xiavg + cos(theta_rot_off + theta_rot) * dCenter;
 								y0 = yiavg + sin(theta_rot_off + theta_rot) * dCenter;
-							
+								
 							}																					
 						}
 					}
@@ -137,7 +137,6 @@ void get_position(unsigned int* inp, double* xo, double* yo, double* to)
 			}
 		}
 	}
-
 	int pos = 0;
 	int sum = 0;
 	double scale = 0;

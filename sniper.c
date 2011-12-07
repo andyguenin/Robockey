@@ -3,6 +3,39 @@
 
 #define pi 3.14159265358979323
 
+#define POSITIVE 1
+#define NEGATIVE -1
+
+#define dxp 57
+#define dyp 10
+#define dtp 4.7
+
+#define dxpp 31
+#define dypp 15
+#define dtpp 3.14 
+
+#define dxpn 58
+#define dypn 30
+#define dtpn 0
+
+#define dxn -60
+#define dyn -28
+#define dtn 1.57
+
+#define dxnp -66
+#define dynp -48
+#define dtnp 3.14 
+
+#define dxnn -40
+#define dynn -32
+#define dtnn 0
+
+#define debug
+
+void indicate_r() {m_red(OFF); m_green(ON);}
+void indicate_l() {m_red(ON); m_green(OFF);}
+void indicate_n() {m_red(OFF); m_green(OFF);}
+void indicate_f() {m_red(ON); m_green(ON);}
 
 double fix_theta(double);
 
@@ -15,8 +48,16 @@ void state_play(void);
 void state_pause(void);
 void state_detangle(void);
 void adc(void);
+int rotate(double);
+double rotate_to_point(double x_c, double y_c, double x_d, double y_d);
+
 bool first = true;
-bool direction = false;
+int direction = POSITIVE;
+
+int play_state = 1;
+int find_then_play_state = 1;
+int sub_play_state = 1;
+bool boost = false;
 
 bool g_pos = false;
 bool s_pos = false;
@@ -50,62 +91,38 @@ void sniper()
 	  set(DIDR0,ADC7D);//setting F7
 
 	set(ADCSRA, ADEN);
-
-		while(1)
-		{
-			adc();
-			if(a_pos >= 903)
-			{
-				s_pos = true;
-			}
-			else
-			{
-				s_pos = false;
-			}
-
-	
-			if(a_left < 500 && a_right < 500)
-			{
-				set_left(20);
-				set_right(-20);
-			}
-			if(a_left > 900 && a_left > a_center)
-			{
-				set_right(20);
-				set_left(-20);
-			}
-			if(a_right > 900 && a_right > a_center)
-			{
-				set_right(-20);
-				set_left(20);
-			}
-			if(a_center> a_left && a_center > a_right && a_center > 800 && !s_pos)
-			{
-				set_right(20);
-				set_left(20);
-			}
-
-			if(s_pos)
-			{	
-				m_green(OFF);
-				m_red(ON);
-				set_right(0);
-				set_left(0);
-			}
-			else
-			{
-		
-				m_green(ON);
-				m_red(OFF);
-			}
-			
-		}
+	play_state = 1;
+	set_position(1024/2, 768/2);
+	first = true;
 	//state_before_game();
+
+	m_usb_init();
+	while(!m_usb_isconnected());
+	state_play();
 
 }
 
 void state_before_game(void)
 {
+	double x = 0;
+	double y = 0;
+	double theta = 0;
+
+	unsigned int blobs[12];
+	m_wii_read(blobs);
+	get_position(blobs, &x, &y, &theta);
+	
+	theta = fix_theta(theta);
+
+	if(theta < pi / 2 || theta > 3 * pi / 2)
+	{
+		direction = true;
+	}
+	else
+	{
+		direction = false;
+	}
+
 	while(1)
 	{
 		m_red(ON);
@@ -153,44 +170,146 @@ double fix_theta(double t)
 		
 void state_play()
 {
-	m_green(ON);
+	unsigned int blobs[12];
+	m_wii_read(blobs);
+	double x = 0;
+	double y = 0;
+	double t;
 	while(1)
 	{
-		double x = 0;
-		double y = 0;
-		double theta = 0;
+//		get_position(blobs, &x, &y, &t);
 
-		unsigned int blobs[12];
-		m_wii_read(blobs);
-		get_position(blobs, &x, &y, &theta);
-		
-		theta = fix_theta(theta);
-		adc();
-		if(a_pos >= 1003)
-		{
-			s_pos = true;
-		}
-		else
-		{
-			s_pos = false;
-		}
-				
+		t = fix_theta(t);
+
 		if(first)
 		{
-			if(theta < pi / 2 || theta > 3 * pi / 2)
+			if(t < pi/2 || t > 3*pi/2)
 			{
-				m_green(ON);
-				m_red(OFF);
+				direction = POSITIVE;
 			}
 			else
 			{
-				m_red(ON);
-				m_green(OFF);
-			}
-
-			first = false;
+				direction = NEGATIVE;
+			}		
 		}
 
+	
+		adc();
+		m_usb_tx_string("\n\n\nleft");
+		m_usb_tx_int(a_left);
+		m_usb_tx_string("\ncenter");
+		m_usb_tx_int(a_center);
+		m_usb_tx_string("\nright");
+		m_usb_tx_int(a_right);
+		m_usb_tx_string("\npos");
+		m_usb_tx_int(a_pos);
+		m_usb_tx_string("\nside");
+		m_usb_tx_int(a_side);
+		m_wait(300);
+
+		if(a_center > 300 || a_left > 300 || a_right > 300)
+		{
+			if(a_center >= a_left && a_center >= a_right)
+			{
+				if(a_pos > 990)
+				{
+					if(y > 6)
+					{
+						if(direction == POSITIVE)
+						{
+							indicate_r();
+							m_usb_tx_string("\n\ntoo far left");
+							set_left(40);
+							set_right(35);
+						}
+						else
+						{
+							m_usb_tx_string("\n\ntoo far right");
+							indicate_l();
+							set_left(35);
+							set_right(40);
+						}
+					}
+					else
+					{
+						if(y < -6)
+						{
+							if(direction == POSITIVE)
+							{
+								indicate_l();
+								m_usb_tx_string("\n\ntoo far right");
+								set_left(35);
+								set_right(40);
+							}
+							else
+							{
+								m_usb_tx_string("\n\ntoo far left");
+								indicate_r();
+								set_left(40);
+								set_right(35);
+							}
+						}
+						else
+						{
+							m_usb_tx_string("\n\ngo forward");
+							indicate_f();
+							set_left(60);
+							set_right(60);
+						}
+					}
+
+				}
+				else
+				{
+					indicate_f();
+					m_usb_tx_string("\n\nmove forward to puck");
+					set_left(40);
+					set_right(40);
+				}
+			}
+			else
+			{
+				if(a_left >= a_center && a_left > a_right)
+				{
+					indicate_l();
+					m_usb_tx_string("\n\nrotate left to puck");
+					set_left(35);
+					set_right(40);
+				}
+				else
+				{
+					if(a_right >= a_center && a_right > a_center)
+					{
+						indicate_r();
+						m_usb_tx_string("\n\nrotate right to puck");
+						set_left(40);
+						set_right(35);
+					}
+					else
+					{
+						if(a_center > a_left && a_center > a_right)
+						{
+							indicate_f();
+							m_usb_tx_string("\n\nmove forward to puck");
+							set_left(40);
+							set_right(40);
+						}
+						else
+						{
+							indicate_n();
+							m_usb_tx_string("\n\nno puck found");
+							set_left(15);
+							set_right(-15);
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			set_left(15);
+			set_right(-15);
+		}
 		if(wireless_buffer_f)
 		{
 			wireless_buffer_f = false;
@@ -202,18 +321,26 @@ void state_play()
 				case 0x02:
 					g_pos = false;
 					break;					
-				case 0xA4:
+				case PAUSE:
+					state_pause();
+					return;
+				case PLAY:
+					1 == 1;
+					return;
+				case HALFTIME:
+					direction = !direction;
 					state_pause();
 					break;
-				case 0xA1:
-					state_play();
-					return;
+				case COMMTEST:
+					event_comm_test();
+					break;
 				default:
-					state_before_game();
+					state_pause();
 					return;
 			}
 		}
 	}
+
 
 /*
 	m_green(ON);
@@ -373,6 +500,61 @@ void adc()
 }
 void event_goal(char side)
 {
+  
+}
+
+double rotate_to_point(double x_c, double y_c, double x_d, double y_d)
+{
+	return atan2(y_d - y_c, x_d - x_c);
 
 }
+
+int rotate(double theta)
+{
+	if(theta < pi / 2 || theta > 3*pi/2 )
+	{
+		if(theta < -pi/2)
+		{
+			set_left(20);
+			set_right(-20);
+			return 1;
+		}
+		if(theta < -pi / 4)
+		{
+			set_left(20);
+			set_right(-20);
+			return 2;
+		}
+		if(theta < -pi / 8)
+		{
+			set_left(15);
+			set_right(-15);
+			return 3;
+		}
+	}
+	else
+	{
+		if(theta > pi/2)
+		{
+			set_left(-20);
+			set_right(20);
+			return 1;
+		}
+		if(theta > pi / 4)
+		{
+			set_left(-20);
+			set_right(20);
+			return 2;
+		}
+		if(theta > pi / 8)
+		{
+			set_left(-15);
+			set_right(15);
+			return 3;
+		}
+
+	}
+	return 0;
+}
+
 #endif

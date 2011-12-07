@@ -1,9 +1,8 @@
-//git commit -am "______"
-
-//git pull/push origin master
-
+                                                                     
+                                                                     
+                                                                     
+                                             
 #include "common_robockey.h"
-
 #ifdef GRINDER
 
 unsigned int blobs[12];
@@ -11,7 +10,15 @@ unsigned int blobs[12];
 double x;
 double y;
 double theta;
+double theta_goal;
 
+double fix_theta(double);
+
+char buffer[12];
+
+bool second_half = false;
+bool sit_1 = false;
+bool sit_2 = false;
 bool start = true;
 bool possession = false;
 bool target = false;
@@ -19,210 +26,208 @@ bool target = false;
 void grinder(void)
 {
 
-init_all();
+	init_all();
 
-set_left(0);
-set_right(0);
+	//set voltage reference to 5V
+	clear(ADMUX, REFS1);
+	set(ADMUX, REFS0);
 
-    //set voltage reference to 5V
-    clear(ADMUX, REFS1);
-    set(ADMUX, REFS0);
+	//set ADC pre-scaler
+	set(ADCSRA,ADPS2);
+	set(ADCSRA,ADPS1);
+	set(ADCSRA,ADPS0);
 
-    //set ADC pre-scaler
-    set(ADCSRA,ADPS2);
-    set(ADCSRA,ADPS1);
-    set(ADCSRA,ADPS0);
+	//set pin to turn off digital circuitry
+	set(DIDR0,ADC6D);
+	set(DIDR0,ADC7D);
+	set(DIDR2,ADC10D);
 
-    //set pin to turn off digital circuitry
-    set(DIDR0,ADC6D);
-    set(DIDR0,ADC7D);
-    set(DIDR2,ADC10D);
-    
-    //set B0 for puck possession input
-    clear(DDRB,0);
+	//set B0 for puck possession input
+	clear(DDRB,0);
 
-    //initialize position at center ice
-    m_red(ON); m_green(ON); m_wait(300);
-    m_red(OFF); m_green(OFF); m_wait(300);
-    m_red(ON); m_green(ON); m_wait(300);
-    
-    m_wii_read(blobs);
-    set_position(512,384);
-    get_position(blobs, &x, &y, &theta);
-    
-    m_green(OFF); m_red(OFF); m_wait(300);
-    m_red(ON); m_green(ON); m_wait(300);
-    m_red(OFF); m_green(OFF); m_wait(300);
+	//initialize position
+	m_red(ON); m_green(ON); m_wait(300);
+	m_red(OFF); m_green(OFF); m_wait(300);
+	m_red(ON); m_green(ON); m_wait(300);
+	m_wii_read(blobs);
+	set_position(512,384);
+	get_position(blobs, &x, &y, &theta);
+	
+	theta_goal = fix_theta(theta);
+	
+	m_green(OFF); m_red(OFF); m_wait(300);
+	m_red(ON); m_green(ON); m_wait(300);
+	m_red(OFF); m_green(OFF); m_wait(300);
 
-    char inst = wireless_buffer[0];
+	char inst = wireless_buffer[0];
 
-    while(1)
-    {    
+	while(1)
+	{
 
-    //TEST SEGMENT
-    wait(1);
-    inst = 0xA1;
-    wireless_buffer_f = false;
-    //TEST SEGMENT
+		if(wireless_buffer_f)
+		{
+			wireless_buffer_f = false;
+			inst = wireless_buffer[0];
+		}
+		// inst = 0xA1;
 
-    /*
-    if(wireless_buffer_f)
-    {
-        wireless_buffer_f = false;
-        inst = wireless_buffer[0];
-*/  switch(inst)
-    {
-        case 1: //sniper has puck  
-        break;
-        
-        case 2: //grinder has puck
-        break;
-        
-        case 3: //grinder screening goalie
-        break;
+		switch(inst)
+		{
+			case 1:
+			set_left(0);
+			set_right(0);
+			break;
 
-        case 4: //sniper screening goalie
-        break;
-        
-        case 5: //sniper lost puck
-        break;
-        
-        case 6: //wait for screen
-        break;
-                    
-        case 0xA0: //command test
-        m_green(ON);
-        m_red(ON);
-        m_wait(300);
-        m_green(OFF);
-        m_red(OFF);
-        m_wait(300);
-        m_green(ON);
-        m_red(ON);
-        m_wait(300);
-        m_green(OFF);
-        m_red(OFF);
-        break;
-        
-        case 0xA1: //play
-        m_red(ON);
-    
-        //set channel selection to D7 for puck location
-/*        clear(ADMUX,MUX0);
-        set(ADMUX,MUX1);
-        clear(ADMUX,MUX2);
-        set(ADCSRB,MUX5);   
-    
-        set(ADCSRA,ADEN);
-        set(ADCSRA,ADSC);
-*/
-/*        if(start)
-        {
-            start = false;
-            while(!check(ADCSRA,ADIF));
-            while(ADC > 800)
-            {
-                set_left(100);
-                set_right(100);
-                
-                set(ADCSRA,ADIF);
-                set(ADCSRA,ADSC);
-                
-                while(!check(ADCSRA,ADIF));
-            }
-        }
-*/        
-/*        while(!check(ADCSRA,ADIF));
-        if(ADC < 975){m_green(ON); set_left(-15); set_right(15); target = false;}
-        if(ADC >= 975){m_green(OFF); set_left(30); set_right(30); target = true;}
-    
-        set(ADCSRA,ADIF);
-        clear(ADCSRA,ADEN);
-    
-        if(target && !wireless_buffer_f)
-        {
-            wireless_buffer_f = false;    
-                    
-            //set channel selection to F6 for puck possession
-            clear(ADMUX,MUX0);
-            set(ADMUX,MUX1);
-            set(ADMUX,MUX2);
-            clear(ADCSRB,MUX5);    
+			case 2:
+			inst = 0xA1;
+			break;
 
-            set(ADCSRA,ADEN);
-            set(ADCSRA,ADSC);
+			case 0xA0: //command test
+			m_green(ON);
+			m_red(ON);
+			m_wait(300);
+			m_green(OFF);
+			m_red(OFF);
+			m_wait(300);
+			m_green(ON);
+			m_red(ON);
+			m_wait(300);
+			m_green(OFF);
+			m_red(OFF);
+			break;
 
-            while(!check(ADCSRA,ADIF));
-            if(ADC < 1010){possession = false;}
-            if(ADC >= 1010)
-            {
-        
-                set(ADCSRA,ADIF);
-                clear(ADCSRA,ADEN);
+			case 0xA1: //play
 
-                //set channel selection to F6 for puck possession
-                set(ADMUX,MUX0);
-                set(ADMUX,MUX1);
-                set(ADMUX,MUX2);
-                clear(ADCSRB,MUX5);    
+			//set channel selection to D7 for puck location
+			clear(ADMUX,MUX0);
+			set(ADMUX,MUX1);
+			clear(ADMUX,MUX2);
+			set(ADCSRB,MUX5);
 
-                set(ADCSRA,ADEN);
-                set(ADCSRA,ADSC);
+			set(ADCSRA,ADEN);
+			set(ADCSRA,ADSC);
 
-                while(!check(ADCSRA,ADIF));
-                if(ADC >= 1010){possession = true;}
-                if(ADC < 1010){possession = false;}
-            }
-        }        
-*/    
-//        if(possession && !wireless_buffer_f)
-//        {
-//         wireless_buffer_f = false;
-//        m_green(ON);
-       
-//        send_message_to_bot((char*)2, 0x24);
-       
-        m_wii_read(blobs);
-        get_position(blobs, &x, &y, &theta);
-       
-        if(y > 359){set_left(20); set_right(10); m_red(OFF); m_green(ON);}
-        if(y < 409){set_left(10); set_right(20); m_red(ON); m_green(OFF);}
-        if(y >= 359 && y <= 409){set_left(50); set_right(50); m_red(OFF); m_green(OFF);} 
-   
-//        if(theta < 0.9 * theta_desired){set_left(20); set_right(10);}
-//        if(theta > 1.1 * theta_desired){set_left(10); set_right(20);}      
-   
-//        if(theta >= 0.9 * theta_desired && theta <= 1.1 * theta_desired){set_left(40); set_right(40);}
-//       }
-    
-//        set(ADCSRA,ADIF);
-//        m_red(OFF);    
-//        m_green(OFF);
-        break;
-        
-        //case 0xA2 goes to default (GOAL A)
-        
-        //case 0xA3 goes to default (GOAL B)
-        
-        //case 0xA4 goes to default (PAUSE)
-        
-        //case 0xA5 goes to defaul (DETANGLE)
-        
-        case 0xA6: //halftime
-        break;
-                    
-        //case 0xA7 goes to default (GAMEOVER)
-        
-        default:
-        set_left(0);
-        set_right(0);
-        break;
-    
-        }
-    }
-}    
+			while(!check(ADCSRA,ADIF));
+			while(start && ADC >= 975 && !wireless_buffer_f)
+			{
+				wireless_buffer_f = false; 
 
-//}
+				set(ADCSRA,ADIF); 
+				set(ADCSRA,ADSC); 
+
+				set_left(100); 
+				set_right(100);
+			}
+
+			start = false;
+
+			if(ADC < 985){m_green(ON); set_left(10); set_right(30); target = false;}
+			if(ADC >= 985){m_green(OFF); set_left(30); set_right(30); target = true;}
+			set(ADCSRA,ADIF);
+			clear(ADCSRA,ADEN);
+			if(target && !wireless_buffer_f)
+			{
+				wireless_buffer_f = false;
+			
+				//set channel selection to F6 for puck possession
+				clear(ADMUX,MUX0);
+				set(ADMUX,MUX1);
+				set(ADMUX,MUX2);
+				clear(ADCSRB,MUX5);
+				
+				set(ADCSRA,ADEN);
+				set(ADCSRA,ADSC);
+				
+				while(!check(ADCSRA,ADIF));
+				
+				if(ADC < 1000){possession = false;}
+				if(ADC >= 1000)
+				{
+					set(ADCSRA,ADIF);
+					clear(ADCSRA,ADEN);
+
+					//set channel selection to F6 for puck possession
+					set(ADMUX,MUX0);
+					set(ADMUX,MUX1);
+					set(ADMUX,MUX2);
+					clear(ADCSRB,MUX5);
+
+					set(ADCSRA,ADEN);
+					set(ADCSRA,ADSC);
+					
+					while(!check(ADCSRA,ADIF));
+					
+					if(ADC >= 1000){possession = true;}
+					if(ADC < 1000){possession = false;}
+				}
+			}
+			if(possession && !wireless_buffer_f)
+			{
+				wireless_buffer_f = false;
+				buffer[0] = 1;
+				send_message_to_bot(buffer, 0x24);
+
+				m_green(ON);
+
+				m_wii_read(blobs);
+				get_position(blobs, &x, &y, &theta);
+				theta = fix_theta(theta);
+
+				if(theta > theta_goal + 0.125){set_left(20); set_right(10); m_red(OFF); m_green(ON); sit_1 = true;}
+				if(theta < theta_goal - 0.125){set_left(20); set_right(10); m_red(ON); m_green(OFF); sit_2 = true;}
+				if(!sit_1 && !sit_2){set_left(50); set_right(50); m_red(OFF); m_green(OFF);}
+
+				sit_1 = false;
+				sit_2 = false;
+			}
+				
+			if(!possession){buffer[0] = 2; send_message_to_bot(buffer, 0x24);}
+
+			set(ADCSRA,ADIF);
+			clear(ADCSRA,ADEN);
+
+			m_red(OFF);
+			m_green(OFF);
+			break;
+
+			//case 0xA2 goes to default (GOAL A)
+
+			//case 0xA3 goes to default (GOAL B)
+
+			//case 0xA4 goes to default (PAUSE)
+
+			//case 0xA5 goes to default (DETANGLE)
+
+			case 0xA6: //halftime
+			set_left(0);
+			set_right(0);
+			second_half = true;
+			start = true;
+			wireless_buffer_f = false;
+			while(!wireless_buffer_f);
+			break;
+
+			//case 0xA7 goes to default (GAMEOVER)
+
+			default:
+			set_left(0);
+			set_right(0);
+			break;
+		}
+
+	}
+}
+
+
+double fix_theta(double t)
+{
+	double theta = t;
+	while(theta < 0)
+		theta += 2 * pi;
+	while(theta >= 2 * pi)
+		theta -= 2 * pi;
+	return theta;
+}
+
 
 #endif
-
