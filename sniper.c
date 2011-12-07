@@ -30,7 +30,9 @@
 #define dynn -32
 #define dtnn 0
 
-#define debug
+//#define debug
+#define LEFT false
+#define RIGHT true
 
 void indicate_r() {m_red(OFF); m_green(ON);}
 void indicate_l() {m_red(ON); m_green(OFF);}
@@ -57,6 +59,7 @@ int direction = POSITIVE;
 int play_state = 1;
 int find_then_play_state = 1;
 int sub_play_state = 1;
+bool turning = false;
 bool boost = false;
 
 bool g_pos = false;
@@ -96,8 +99,6 @@ void sniper()
 	first = true;
 	//state_before_game();
 
-	m_usb_init();
-	while(!m_usb_isconnected());
 	state_play();
 
 }
@@ -171,13 +172,13 @@ double fix_theta(double t)
 void state_play()
 {
 	unsigned int blobs[12];
-	m_wii_read(blobs);
 	double x = 0;
 	double y = 0;
 	double t;
 	while(1)
 	{
-//		get_position(blobs, &x, &y, &t);
+		m_wii_read(blobs);
+		get_position(blobs, &x, &y, &t);
 
 		t = fix_theta(t);
 
@@ -195,39 +196,31 @@ void state_play()
 
 	
 		adc();
-		m_usb_tx_string("\n\n\nleft");
-		m_usb_tx_int(a_left);
-		m_usb_tx_string("\ncenter");
-		m_usb_tx_int(a_center);
-		m_usb_tx_string("\nright");
-		m_usb_tx_int(a_right);
-		m_usb_tx_string("\npos");
-		m_usb_tx_int(a_pos);
-		m_usb_tx_string("\nside");
-		m_usb_tx_int(a_side);
-		m_wait(300);
-
-		if(a_center > 300 || a_left > 300 || a_right > 300)
+		// if one of the values sees the puck
+		if(a_center > 500 || a_left > 500 || a_right > 500)
 		{
+			// If the center value is the most itense
 			if(a_center >= a_left && a_center >= a_right)
 			{
-				if(a_pos > 990)
+				// if it has possetion of the puck
+				if(a_pos > 1003)
 				{
 					if(y > 6)
 					{
 						if(direction == POSITIVE)
 						{
 							indicate_r();
-							m_usb_tx_string("\n\ntoo far left");
-							set_left(40);
-							set_right(35);
+							set_left(60);
+							set_right(10);
+							turning = RIGHT;
 						}
 						else
 						{
-							m_usb_tx_string("\n\ntoo far right");
+						
 							indicate_l();
-							set_left(35);
-							set_right(40);
+							set_left(15);
+							set_right(60);
+							turning = LEFT;
 						}
 					}
 					else
@@ -237,21 +230,20 @@ void state_play()
 							if(direction == POSITIVE)
 							{
 								indicate_l();
-								m_usb_tx_string("\n\ntoo far right");
-								set_left(35);
-								set_right(40);
+								set_left(15);
+								set_right(60);
+								turning = LEFT;
 							}
 							else
 							{
-								m_usb_tx_string("\n\ntoo far left");
 								indicate_r();
-								set_left(40);
-								set_right(35);
+								set_left(60);
+								set_right(15);
+								turning = RIGHT;
 							}
 						}
 						else
 						{
-							m_usb_tx_string("\n\ngo forward");
 							indicate_f();
 							set_left(60);
 							set_right(60);
@@ -259,54 +251,54 @@ void state_play()
 					}
 
 				}
+				// if it doesn't have possetion of the puck
 				else
 				{
 					indicate_f();
-					m_usb_tx_string("\n\nmove forward to puck");
 					set_left(40);
 					set_right(40);
 				}
 			}
+			// if the center value is not the most intense value
 			else
 			{
+				// if the left value is the most itense
 				if(a_left >= a_center && a_left > a_right)
 				{
 					indicate_l();
-					m_usb_tx_string("\n\nrotate left to puck");
-					set_left(35);
-					set_right(40);
-				}
-				else
-				{
-					if(a_right >= a_center && a_right > a_center)
-					{
-						indicate_r();
-						m_usb_tx_string("\n\nrotate right to puck");
-						set_left(40);
-						set_right(35);
+					
+					if(a_left - 20 > a_center)
+					{	
+						set_right(40);
+						set_left(-40);
 					}
 					else
 					{
-						if(a_center > a_left && a_center > a_right)
-						{
-							indicate_f();
-							m_usb_tx_string("\n\nmove forward to puck");
-							set_left(40);
-							set_right(40);
-						}
-						else
-						{
-							indicate_n();
-							m_usb_tx_string("\n\nno puck found");
-							set_left(15);
-							set_right(-15);
-						}
+						set_left(0);
+						set_right(40);
+					}
+				}
+				// if the right value is the most intense
+				else
+				{
+					indicate_r();
+					if(a_right - 20 > a_center)
+					{
+						set_left(40);
+						set_right(-40);
+					}
+					else
+					{
+						set_left(40);
+						set_right(0);
 					}
 				}
 			}
 		}
+		// No puck found
 		else
 		{
+			indicate_n();
 			set_left(15);
 			set_right(-15);
 		}

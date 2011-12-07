@@ -10,13 +10,21 @@ unsigned int blobs[12];
 double x;
 double y;
 double theta;
+
+double x_goal;
+double y_goal;
 double theta_goal;
 
 double fix_theta(double);
 
 char buffer[12];
 
+unsigned int i = 0;
+
+bool j = 0;
+
 bool second_half = false;
+bool align = 0;
 bool sit_1 = false;
 bool sit_2 = false;
 bool start = true;
@@ -53,8 +61,10 @@ void grinder(void)
 	set_position(512,384);
 	get_position(blobs, &x, &y, &theta);
 	
-	theta_goal = fix_theta(theta);
-	
+	x = x_goal;
+	y = y_goal;
+	theta_goal = fix_theta(theta);	
+
 	m_green(OFF); m_red(OFF); m_wait(300);
 	m_red(ON); m_green(ON); m_wait(300);
 	m_red(OFF); m_green(OFF); m_wait(300);
@@ -121,10 +131,26 @@ void grinder(void)
 
 			start = false;
 
-			if(ADC < 985){m_green(ON); set_left(10); set_right(30); target = false;}
-			if(ADC >= 985){m_green(OFF); set_left(30); set_right(30); target = true;}
+			m_wii_read(blobs);
+			get_position(blobs, &x, &y, &theta);
+			theta = fix_theta(theta);
+
+			if(ADC < 985)
+			{
+				m_green(ON);
+				
+				if(i < 8000 && !j){set_left(10); set_right(30); i += 1;}
+				if(i == 10000 && !j){i = 0; j = 1;}
+				if(j){set_left(-50); set_right(-50); m_wait(500); i = 0; j = 0;}
+
+				 target = false;
+			}
+
+			if(ADC >= 985){m_green(OFF); set_left(30); set_right(30); i = 0; j = 0; target = true; }
+
 			set(ADCSRA,ADIF);
 			clear(ADCSRA,ADEN);
+
 			if(target && !wireless_buffer_f)
 			{
 				wireless_buffer_f = false;
@@ -134,55 +160,53 @@ void grinder(void)
 				set(ADMUX,MUX1);
 				set(ADMUX,MUX2);
 				clear(ADCSRB,MUX5);
-				
+					
 				set(ADCSRA,ADEN);
 				set(ADCSRA,ADSC);
 				
 				while(!check(ADCSRA,ADIF));
-				
-				if(ADC < 1000){possession = false;}
-				if(ADC >= 1000)
+					
+				if(ADC < 960){possession = false;}
+				if(ADC >= 960)
 				{
 					set(ADCSRA,ADIF);
-					clear(ADCSRA,ADEN);
-
+					clear(ADCSRA,ADEN);	
+				
 					//set channel selection to F6 for puck possession
 					set(ADMUX,MUX0);
 					set(ADMUX,MUX1);
 					set(ADMUX,MUX2);
-					clear(ADCSRB,MUX5);
-
+					clear(ADCSRB,MUX5);	
+	
 					set(ADCSRA,ADEN);
 					set(ADCSRA,ADSC);
-					
+						
 					while(!check(ADCSRA,ADIF));
-					
-					if(ADC >= 1000){possession = true;}
-					if(ADC < 1000){possession = false;}
+						
+					if(ADC >= 960){possession = true; m_red(ON);}
+					if(ADC < 960){possession = false;}
 				}
 			}
-			if(possession && !wireless_buffer_f)
-			{
-				wireless_buffer_f = false;
-				buffer[0] = 1;
-				send_message_to_bot(buffer, 0x24);
 
-				m_green(ON);
+				if(possession && !wireless_buffer_f)
+				{
+					wireless_buffer_f = false;
 
-				m_wii_read(blobs);
-				get_position(blobs, &x, &y, &theta);
-				theta = fix_theta(theta);
+					buffer[0] = 1;
+					send_message_to_bot(buffer, 0x24);	
 
-				if(theta > theta_goal + 0.125){set_left(20); set_right(10); m_red(OFF); m_green(ON); sit_1 = true;}
-				if(theta < theta_goal - 0.125){set_left(20); set_right(10); m_red(ON); m_green(OFF); sit_2 = true;}
-				if(!sit_1 && !sit_2){set_left(50); set_right(50); m_red(OFF); m_green(OFF);}
+					m_green(ON);
 
-				sit_1 = false;
-				sit_2 = false;
-			}
-				
+					if(theta > theta_goal + 0.125){set_left(35); set_right(25); m_red(OFF); m_green(ON); sit_1 = true;}
+					if(theta < theta_goal - 0.125){set_left(25); set_right(35); m_red(ON); m_green(OFF); sit_2 = true;}
+					if(!sit_1 && !sit_2){set_left(50); set_right(50); align = 1; m_red(OFF); m_green(OFF);}
+
+					sit_1 = false;
+					sit_2 = false;
+				}
+
 			if(!possession){buffer[0] = 2; send_message_to_bot(buffer, 0x24);}
-
+	
 			set(ADCSRA,ADIF);
 			clear(ADCSRA,ADEN);
 
@@ -212,9 +236,7 @@ void grinder(void)
 			default:
 			set_left(0);
 			set_right(0);
-			break;
 		}
-
 	}
 }
 
