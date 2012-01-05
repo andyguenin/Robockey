@@ -11,8 +11,6 @@ double x;
 double y;
 double theta;
 
-double x_goal;
-double y_goal;
 double theta_goal;
 
 double fix_theta(double);
@@ -21,10 +19,6 @@ char buffer[12];
 
 unsigned int i = 0;
 
-bool j = 0;
-
-bool second_half = false;
-bool align = 0;
 bool sit_1 = false;
 bool sit_2 = false;
 bool start = true;
@@ -61,8 +55,6 @@ void grinder(void)
 	set_position(512,384);
 	get_position(blobs, &x, &y, &theta);
 	
-	x = x_goal;
-	y = y_goal;
 	theta_goal = fix_theta(theta);	
 
 	m_green(OFF); m_red(OFF); m_wait(300);
@@ -79,13 +71,11 @@ void grinder(void)
 			wireless_buffer_f = false;
 			inst = wireless_buffer[0];
 		}
-		// inst = 0xA1;
 
 		switch(inst)
 		{
 			case 1:
-			set_left(0);
-			set_right(0);
+			inst = 0xA1;
 			break;
 
 			case 2:
@@ -93,17 +83,15 @@ void grinder(void)
 			break;
 
 			case 0xA0: //command test
-			m_green(ON);
-			m_red(ON);
-			m_wait(300);
-			m_green(OFF);
-			m_red(OFF);
-			m_wait(300);
-			m_green(ON);
-			m_red(ON);
-			m_wait(300);
-			m_green(OFF);
-			m_red(OFF);
+			
+			m_green(ON); m_red(ON); m_wait(300);
+			m_green(OFF); m_red(OFF); m_wait(300);
+			m_green(ON); m_red(ON);	m_wait(300);
+			m_green(OFF); m_red(OFF); 
+
+			while(!wireless_buffer_f);
+			wireless_buffer_f = false;
+			
 			break;
 
 			case 0xA1: //play
@@ -118,15 +106,12 @@ void grinder(void)
 			set(ADCSRA,ADSC);
 
 			while(!check(ADCSRA,ADIF));
-			while(start && ADC >= 975 && !wireless_buffer_f)
+
+			while(start && !wireless_buffer_f)
 			{
-				wireless_buffer_f = false; 
-
-				set(ADCSRA,ADIF); 
-				set(ADCSRA,ADSC); 
-
-				set_left(100); 
-				set_right(100);
+				wireless_buffer_f = false;
+				if(ADC >= 870){set(ADCSRA,ADIF); set(ADCSRA,ADSC); set_left(100); set_right(100); m_green(ON);}
+				if(ADC < 870){set(ADCSRA,ADIF); set(ADCSRA,ADSC); set_left(-50); set_right(-50); m_green(OFF); start = false; m_wait(500); set_left(30); set_right(-30); m_wait(500);}			
 			}
 
 			start = false;
@@ -135,18 +120,32 @@ void grinder(void)
 			get_position(blobs, &x, &y, &theta);
 			theta = fix_theta(theta);
 
-			if(ADC < 985)
+			if(ADC < 930 && !target)
 			{
-				m_green(ON);
-				
-				if(i < 8000 && !j){set_left(10); set_right(30); i += 1;}
-				if(i == 10000 && !j){i = 0; j = 1;}
-				if(j){set_left(-50); set_right(-50); m_wait(500); i = 0; j = 0;}
+				m_green(OFF);				
 
-				 target = false;
+				if(i < 2000){set_left(8); set_right(24); i = i + 1;}
+				if(i == 2000){set_left(-50); set_right(-50); m_wait(500); i = i + 1;}
+				if(i > 4000 && i < 5000){set_left(24); set_right(8); i = i + 1;}
+				if(i == 5000){set_left(-50); set_right(-50); m_wait(500); i = 0;}
+
+				target = false;
 			}
 
-			if(ADC >= 985){m_green(OFF); set_left(30); set_right(30); i = 0; j = 0; target = true; }
+			if(ADC < 930 && target)
+			{
+				set_left(-50);
+				set_right(-50);
+
+				m_wait(500);
+
+				set_left(0);
+				set_right(0);
+
+				target = false;
+			}
+
+			if(ADC >= 930 && !target){m_green(ON); set_left(90); set_right(90); i = 0; target = true;}
 
 			set(ADCSRA,ADIF);
 			clear(ADCSRA,ADEN);
@@ -166,8 +165,8 @@ void grinder(void)
 				
 				while(!check(ADCSRA,ADIF));
 					
-				if(ADC < 960){possession = false;}
-				if(ADC >= 960)
+				if(ADC < 930){possession = false;}
+				if(ADC >= 930)
 				{
 					set(ADCSRA,ADIF);
 					clear(ADCSRA,ADEN);	
@@ -183,8 +182,8 @@ void grinder(void)
 						
 					while(!check(ADCSRA,ADIF));
 						
-					if(ADC >= 960){possession = true; m_red(ON);}
-					if(ADC < 960){possession = false;}
+					if(ADC >= 930){possession = true; m_red(ON);}
+					if(ADC < 930){possession = false;}
 				}
 			}
 
@@ -195,24 +194,24 @@ void grinder(void)
 					buffer[0] = 1;
 					send_message_to_bot(buffer, 0x24);	
 
-					m_green(ON);
-
-					if(theta > theta_goal + 0.125){set_left(35); set_right(25); m_red(OFF); m_green(ON); sit_1 = true;}
-					if(theta < theta_goal - 0.125){set_left(25); set_right(35); m_red(ON); m_green(OFF); sit_2 = true;}
-					if(!sit_1 && !sit_2){set_left(50); set_right(50); align = 1; m_red(OFF); m_green(OFF);}
+					if(theta > theta_goal + 0.79){set_left(35); set_right(15); sit_1 = true;}
+					if(theta < theta_goal - 0.79){set_left(15); set_right(35); sit_2 = true;}
+					if(!sit_1 && !sit_2){set_left(100); set_right(100);}
 
 					sit_1 = false;
 					sit_2 = false;
 				}
 
-			if(!possession){buffer[0] = 2; send_message_to_bot(buffer, 0x24);}
+			if(!possession){buffer[0] = 2; send_message_to_bot(buffer, 0x24); m_red(OFF);}
 	
 			set(ADCSRA,ADIF);
 			clear(ADCSRA,ADEN);
 
 			m_red(OFF);
 			m_green(OFF);
+
 			break;
+
 
 			//case 0xA2 goes to default (GOAL A)
 
@@ -222,20 +221,39 @@ void grinder(void)
 
 			//case 0xA5 goes to default (DETANGLE)
 
+
 			case 0xA6: //halftime
+			
 			set_left(0);
 			set_right(0);
-			second_half = true;
+
+			theta_goal = theta_goal + pi;
+			theta_goal = fix_theta(theta_goal);
+
 			start = true;
+			i = 0;
+
+
 			wireless_buffer_f = false;
 			while(!wireless_buffer_f);
+
 			break;
+
 
 			//case 0xA7 goes to default (GAMEOVER)
 
 			default:
+			
 			set_left(0);
 			set_right(0);
+
+			start = true;
+			i = 0;
+
+			wireless_buffer_f = false;
+			while(!wireless_buffer_f);
+			
+			break;
 		}
 	}
 }

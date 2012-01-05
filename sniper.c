@@ -97,9 +97,24 @@ void sniper()
 	play_state = 1;
 	set_position(1024/2, 768/2);
 	first = true;
+
 	//state_before_game();
 
-	state_play();
+	//state_play();
+
+	m_usb_init();
+/*	while(!m_usb_isconnected());
+	m_green(ON);
+*/
+	set_left(30);
+	set_right(100);
+	while(1)
+	{
+		adc();
+	//	m_usb_tx_string("left: ");
+		//m_usb_tx_int(a_left);
+		wait(1);
+	}
 
 }
 
@@ -117,12 +132,13 @@ void state_before_game(void)
 
 	if(theta < pi / 2 || theta > 3 * pi / 2)
 	{
-		direction = true;
+		direction = POSITIVE;
 	}
 	else
 	{
-		direction = false;
+		direction = NEGATIVE;
 	}
+	first = false;
 
 	while(1)
 	{
@@ -174,7 +190,11 @@ void state_play()
 	unsigned int blobs[12];
 	double x = 0;
 	double y = 0;
-	double t;
+	double t = 0;
+	a_center = 1010;
+	a_left = 1005;
+	a_right = 1005;
+	a_pos = 1005;
 	while(1)
 	{
 		m_wii_read(blobs);
@@ -191,10 +211,11 @@ void state_play()
 			else
 			{
 				direction = NEGATIVE;
-			}		
+			}
+			first = false;		
 		}
 
-	
+		
 		adc();
 		// if one of the values sees the puck
 		if(a_center > 500 || a_left > 500 || a_right > 500)
@@ -210,17 +231,53 @@ void state_play()
 						if(direction == POSITIVE)
 						{
 							indicate_r();
-							set_left(60);
-							set_right(10);
 							turning = RIGHT;
+							if(t < 3*pi / 4 || t > 7*pi/8)
+							{
+								set_left(60);
+								set_right(10);
+							}
+							else
+							{
+								if(t < 3*pi / 2)
+								{
+									set_right(60);
+									set_left(10);
+									turning = LEFT;
+								}
+								else
+								{
+									set_left(60);
+									set_right(60);
+								}
+							}
+							
 						}
 						else
 						{
 						
 							indicate_l();
-							set_left(15);
-							set_right(60);
 							turning = LEFT;
+							if(t > pi / 4 && t < 5 * pi /4)
+							{
+								set_left(10);
+								set_right(60);
+							}
+							else
+							{
+								if(t < 3*pi/2)
+								{
+									set_left(60);
+									set_right(10);
+									turning = RIGHT;
+
+								}
+								else
+								{
+									set_left(60);
+									set_right(60);
+								}
+							}							
 						}
 					}
 					else
@@ -230,23 +287,97 @@ void state_play()
 							if(direction == POSITIVE)
 							{
 								indicate_l();
-								set_left(15);
-								set_right(60);
 								turning = LEFT;
+								if(t < pi / 4 || t > 5 * pi / 4)
+								{
+									set_left(15);
+									set_right(60);
+								}
+								else
+								{
+									if(t > pi / 2)
+									{
+										set_left(60);
+										set_right(10);
+										turning = RIGHT;
+									}
+									else
+									{
+										set_left(60);
+										set_right(60);
+									}
+								}								
 							}
 							else
 							{
 								indicate_r();
-								set_left(60);
-								set_right(15);
 								turning = RIGHT;
+								if(t < 3*pi/4 && t < 7*pi/8)
+								{
+									set_left(60);
+									set_right(15);
+								}
+								else
+								{
+									if(t >= 7*pi/ 8 || t < pi/2)
+									{
+										set_right(60);
+										set_left(10);
+										turning = LEFT;
+									}
+									else
+									{
+										set_right(60);
+										set_left(60);
+									}
+								}
 							}
 						}
 						else
 						{
 							indicate_f();
-							set_left(60);
-							set_right(60);
+							if(direction == POSITIVE)
+							{
+								if(t< pi && t > pi/8)
+								{
+									set_left(60);
+									set_right(0);
+								}
+								else
+								{
+									if(t > pi && t < 15*pi/16)
+									{
+										set_left(0);
+										set_right(60);
+									}
+									else
+									{
+										set_left(60);
+										set_right(60);
+									}
+								}
+							}
+							else
+							{
+								if(t<  7* pi/8 && t > 0)
+								{
+									set_left(0);
+									set_right(60);
+								}
+								else
+								{
+									if(t > 9*pi/8 && t < 2*pi)
+									{
+										set_left(60);
+										set_right(0);
+									}
+									else
+									{
+										set_left(60);
+										set_right(60);
+									}
+								}
+							}
 						}
 					}
 
@@ -255,8 +386,8 @@ void state_play()
 				else
 				{
 					indicate_f();
-					set_left(40);
-					set_right(40);
+					set_left(20);
+					set_right(20);
 				}
 			}
 			// if the center value is not the most intense value
